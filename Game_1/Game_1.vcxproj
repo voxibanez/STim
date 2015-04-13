@@ -76,16 +76,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Stim.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Stim.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game_1.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Game_info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Stim.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
