@@ -1,0 +1,105 @@
+﻿Build started 2/18/2015 2:00:47 PM.
+     1>Project "C:\Users\ccapt_000\Desktop\UMass Lowell\Making Games\Game_1\Game_1\Game_1.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Stim.cpp
+         Stim.cpp
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(79): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(92): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(256): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(299): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(300): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(305): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(306): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(311): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(312): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(317): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(318): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(323): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(350): warning C4244: '+=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(363): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(366): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(375): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(377): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(379): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(381): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(385): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(403): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(404): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(405): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(406): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(407): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(409): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(410): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(418): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(419): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(420): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(421): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(422): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(424): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(426): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(428): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(433): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(434): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(435): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(436): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(437): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(439): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(441): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(443): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(448): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(449): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(450): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(451): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(452): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(454): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(456): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(462): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(498): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(535): warning C4101: 'i' : unreferenced local variable
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(573): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(579): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(618): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(702): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(710): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(695): warning C4101: 'answer3' : unreferenced local variable
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(734): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(731): warning C4101: 'answer2' : unreferenced local variable
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(731): warning C4101: 'answer3' : unreferenced local variable
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(749): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(766): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(774): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(940): warning C4244: '*=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(950): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(951): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(956): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(957): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(962): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(963): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(968): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(969): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(995): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(997): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\ccapt_000\desktop\umass lowell\making games\game_1\game_1\stim.cpp(1013): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(283) : see declaration of 'scanf'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\ccapt_000\Desktop\UMass Lowell\Making Games\Game_1\Debug\Game_1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\ccapt_000\Desktop\UMass Lowell\Making Games\Game_1\Debug\Game_1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\ccapt_000\Desktop\UMass Lowell\Making Games\Game_1\Debug\Game_1.lib" /MACHINE:X86 Debug\Game_1.res
+         Debug\Stim.obj
+         Game_1.vcxproj -> C:\Users\ccapt_000\Desktop\UMass Lowell\Making Games\Game_1\Debug\Game_1.exe
+     1>Done Building Project "C:\Users\ccapt_000\Desktop\UMass Lowell\Making Games\Game_1\Game_1\Game_1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.06
