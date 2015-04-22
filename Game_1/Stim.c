@@ -1,15 +1,10 @@
-/*PATCH 1 NOTES
+/*PATCH 1.1 NOTES
 
 Fixes:
-
--You no longer get restored to full HP after a battle
--Using potion doesn't waste a turn
+Mage reroll works correctly
 
 New Content:
-
--Modified weapons stats (still need to balance)
--Rogue now has chance for extra turn
--Can compare dropped items to your equipment
+your mom
 
 */
 #include <stdio.h>
@@ -605,9 +600,9 @@ void lv1drops()
 		ismain_hand = 1;
 		isoff_hand = 1;
 		printf("The enemy dropped a chipped dagger.\n\n\nDropped Item: Chipped Dagger (-1 ATK, 1.1 MOD)\n\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll==0)
 			pickup_weapon(chipped_dagger);
 	}
 	if (roll >= 9 && roll < 13)
@@ -615,17 +610,17 @@ void lv1drops()
 		ismain_hand = 1;
 		isoff_hand = 1;
 		printf("The enemy dropped a wood club.\n\n\nDropped Item: Wood Club (+3 ATK, 1 MOD)\n\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll==0)
 			pickup_weapon(wood_club);
 	}
 	if (roll >= 13 && roll < 18)
 	{
 		printf("It dropped a potion!\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll == 0)
 			pickup_potion();
 	}
 	if (roll >=18&&roll<22)
@@ -633,9 +628,9 @@ void lv1drops()
 		ismain_hand = 1;
 		isoff_hand = 1;
 		printf("It dropped a wooden sword!\n\n\nDropped Item: Wooden Sword (+0 ATK, 1.5 MOD)\n\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll == 0)
 			pickup_weapon(wooden_sword);
 	}
 	if (roll>=22&&roll<25)
@@ -643,28 +638,27 @@ void lv1drops()
 		ismain_hand = 1;
 		isoff_hand = 1;
 		printf("It dropped a fire rune!!\n\n\nDropped Item: Fire Rune (+2 MATK, 1.2 MOD)\n\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll == 0)
 			pickup_weapon(fire_rune);
 	}
 	if (roll >= 25 && roll < 28)
 	{
 		printf("It dropped light armor!!!\n\n\nDropped Item: Light Armor (+1 DEF, +2 MDEF,+1 HP,+5 ACC)\n\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll == 0)
 			pickup_misc(light_armor);
 	}
 	if (roll >= 28 && roll < 31)
 	{
 		printf("It dropped heavy armor!!!\n\n\nDropped Item: Heavy Armor (+2 DEF, +1 MDEF,+3HP)\n\n");
-		if (ismage == 1)
+		if (mage_roll == 1)
 			mage_reroll();
-		else
+		else if (mage_roll == 0)
 			pickup_misc(heavy_armor);
 	}
-
 }
 void pickup_weapon(int* weapon)
 {
@@ -737,7 +731,7 @@ char dumb_user_yn(char answer, int i)
 	{
 		if (i != 1)
 		{
-			printf("Choose Wisely++\n");
+			printf("Choose Wisely\n");
 			clear_buffer();
 			i = scanf("%c", &answer);
 		}
@@ -745,7 +739,7 @@ char dumb_user_yn(char answer, int i)
 			break;
 		else
 		{
-			printf("Choose Wisely---\n");
+			printf("Choose Wisely\n");
 			clear_buffer();
 			i = scanf("%c", &answer);
 		}
@@ -988,10 +982,8 @@ void mage_reroll()
 		clear_buffer();
 		i = scanf("%c", &answer);
 		answer=dumb_user_yn(answer,i);
+		mage_roll = 0;
 		if (answer == 'y' || answer == 'Y')
-		{
 			lv1drops();
-			mage_roll = 0;
-		}
 	}
 }
