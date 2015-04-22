@@ -32,6 +32,8 @@ void titleMusic();
 char** loadArt(char* filename);
 
 AnimationPtr initAnimation(frames, x, y);
+void initPlayer();
+WeaponPtr initWeapon(char* name, double weaponModMin, double weaponModMax, double attackMod, double AccMod, int isPhysical);
 
 char screen[20][80] = {{176}};
 int playerPosition[2][2] = { 0 };
@@ -40,13 +42,13 @@ char ground;
 char*** characters;
 char** playerSprite;
 Enemy* enemies;
-
+WeaponPtr* weapons;
 
 HANDLE wHnd;    // Handle to write to the console.
 HANDLE rHnd;    // Handle to read from the console.
 AnimationPtr boxes;
 
-int main2(int argc, char* argv[]){
+int main(int argc, char* argv[]){
 	int i, j, k;
 	Player mainChar = malloc(sizeof(PlayerSize));
 	char key_code;
@@ -58,6 +60,17 @@ int main2(int argc, char* argv[]){
 	characters[3] = loadArt("Orc.txt");
 	characters[4] = loadArt("Troll.txt");
 	playerSprite = loadArt("Player.txt");
+
+	weapons = malloc(sizeof(WeaponPtr*) * 4);
+	weapons[0] = initWeapon("Wooden Sword", 0.0, 0.7, 1.3, 90, 1);
+	weapons[1] = initWeapon("Fire Rune", 2.0, 0.8, 1.2, 70, 0);
+	weapons[2] = initWeapon("Wood Club", 3.0, 0.6, 1.4, 80, 1);
+	weapons[3] = initWeapon("Chipped Dagger", -1.0, 0.9, 1.1, 70, 1);
+
+
+	mainChar->weaponLeft = weapons[3];
+	mainChar->weaponRight = NULL;
+
 
 	srand(time(NULL));
 
@@ -107,6 +120,13 @@ int main2(int argc, char* argv[]){
 	getch();
 	titleScreen();
 	system("cls");
+
+	character_select(mainChar);
+	
+	system("cls");
+	printf("\n\n\n\n\t\t\t%s, Your journey begins here...\n",mainChar->NAME);
+	Sleep(1000);
+	system("cls");
 	srand(time(NULL));
 	ground = 176;
 
@@ -118,8 +138,6 @@ int main2(int argc, char* argv[]){
 		for (j = 0; j < 79; j++)
 			screen[i][j] = ground;
 	}
-
-
 
 	updateEnemyPosition(enemies,mainChar);
 
@@ -221,7 +239,7 @@ void updatePlayerPosition(Player user){
 	if (user->Position[1][1] > 78)
 		user->Position[1][1] = 78;
 
-	if (rand() % 50 == 0)
+	if (rand() % 20 == 0)
 		for (i = 0; i < 3; i++){
 			if (enemies[i] == NULL){
 				enemies[i] = lv1_pick_monster();
@@ -374,20 +392,17 @@ void battleSequence(Enemy en, Player user){
 	int offsetY = 0;
 	int maxOffset = 1;
 
-
-
-
 	if (en->NAME == "Skeleton"){
 		enemyIndex = 1;
-		maxOffset = 38;
+		maxOffset = 48;
 	}
 	else if (en->NAME == "Goblin"){
 		enemyIndex = 2;
-		maxOffset = 20;
+		maxOffset = 25;
 	}
 	else if (en->NAME == "Orc"){
 		enemyIndex = 3;
-		maxOffset = 28;
+		maxOffset = 20;
 	}
 	else if (en->NAME == "Troll"){
 		enemyIndex = 4;
@@ -448,6 +463,8 @@ void battleSequence(Enemy en, Player user){
 				screen[1][i + 3] = ground;
 				updateScreen();
 
+				encounter(en,user,screen);
+
 }
 
 char** loadArt(char* filename){
@@ -482,6 +499,21 @@ char** loadArt(char* filename){
 		//fgets(temp[j], 78, fp);
 		j++;
 	}
+
+	return temp;
+}
+
+WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin,double attackModMax, double AccMod, int isPhysical){
+	WeaponPtr temp;
+	temp = malloc(sizeof(Weapon));
+	//temp->name = malloc(sizeof(char) * 20);
+
+	temp->name = name;
+	temp->weaponMod = weaponMod;
+	temp->attackModMin = attackModMin;
+	temp->attackModMax = attackModMax;
+	temp->AccMod = AccMod;
+	temp->isPhysical = isPhysical;
 
 	return temp;
 }
