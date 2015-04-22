@@ -91,7 +91,7 @@ HANDLE wHnd;    // Handle to write to the console.
 HANDLE rHnd;    // Handle to read from the console.
 AnimationPtr boxes;
 
-int main(int argc, char* argv[]){
+int main2(int argc, char* argv[]){
 	int i, j, k;
 	Player mainChar = malloc(sizeof(PlayerSize));
 	Enemy enemies = malloc(sizeof(EnemySize));
