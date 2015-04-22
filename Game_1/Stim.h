@@ -15,6 +15,10 @@ typedef struct enemy{
 	int drop_rareity;
 }EnemySize, *Enemy;
 
+typedef struct salesman{
+	int Position[2][2];
+}SalesManSize,*SalesMan;
+
 typedef struct weapon{
 	char* name;
 	double weaponMod;

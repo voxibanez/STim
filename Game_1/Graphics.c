@@ -31,6 +31,10 @@ void titleMusic();
 
 char** loadArt(char* filename);
 
+SalesMan addSalesman();
+
+void moveSalesman(SalesMan storeman);
+
 AnimationPtr initAnimation(frames, x, y);
 void initPlayer();
 WeaponPtr initWeapon(char* name, double weaponModMin, double weaponModMax, double attackMod, double AccMod, int isPhysical);
@@ -43,6 +47,7 @@ char*** characters;
 char** playerSprite;
 Enemy* enemies;
 WeaponPtr* weapons;
+SalesMan storeman;
 
 HANDLE wHnd;    // Handle to write to the console.
 HANDLE rHnd;    // Handle to read from the console.
@@ -60,6 +65,8 @@ int main(int argc, char* argv[]){
 	characters[3] = loadArt("Orc.txt");
 	characters[4] = loadArt("Troll.txt");
 	playerSprite = loadArt("Player.txt");
+	storeman = NULL;
+	
 
 	weapons = malloc(sizeof(WeaponPtr*) * 4);
 	weapons[0] = initWeapon("Wooden Sword", 0.0, 0.7, 1.3, 90, 1);
@@ -160,6 +167,8 @@ int main(int argc, char* argv[]){
 			if (key_code == 'w' || key_code == 'a' || key_code == 's' || key_code == 'd'){
 				updatePlayerPosition(mainChar);
 				updateEnemyPosition(enemies,mainChar);
+				moveSalesman(storeman,mainChar);
+
 			}
 			
 
@@ -239,14 +248,17 @@ void updatePlayerPosition(Player user){
 	if (user->Position[1][1] > 78)
 		user->Position[1][1] = 78;
 
-	if (rand() % 20 == 0)
+	if (rand() % 20 == 0){
 		for (i = 0; i < 3; i++){
 			if (enemies[i] == NULL){
 				enemies[i] = lv1_pick_monster();
 				break;
 			}
-				
+
 		}
+	}
+	if (rand() % 100 == 0 && storeman == NULL)
+		storeman = addSalesman();
 			
 
 	screen[user->Position[0][0]][user->Position[0][1]] = ground;
@@ -331,7 +343,6 @@ void warriornextlevel(Player user)
 	//isdual();
 	//iswarrior = 1;
 }
-
 
 void addAnimation(AnimationPtr animate,int x,int y){
 	int i,j,k;
@@ -514,6 +525,58 @@ WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin,double at
 	temp->attackModMax = attackModMax;
 	temp->AccMod = AccMod;
 	temp->isPhysical = isPhysical;
+
+	return temp;
+}
+
+void moveSalesman(SalesMan storeman,Player user){
+	if (storeman != NULL && user != NULL){
+		int r = rand() % 4;
+		if (r == 0)
+			storeman->Position[1][1]++;
+		if (r == 1)
+			storeman->Position[1][1]--;
+		if (r == 2)
+			storeman->Position[1][0]++;
+		if (r == 3)
+			storeman->Position[1][0]--;
+
+
+
+
+		if (storeman->Position[1][0] < 0)
+			storeman->Position[1][0] = 0;
+		if (storeman->Position[1][1] < 0)
+			storeman->Position[1][1] = 0;
+
+		if (storeman->Position[1][0] > 20)
+			storeman->Position[1][0] = 19;
+		if (storeman->Position[1][1] > 78)
+			storeman->Position[1][1] = 78;
+
+
+
+
+		screen[storeman->Position[0][0]][storeman->Position[0][1]] = ground;
+		screen[storeman->Position[1][0]][storeman->Position[1][1]] = '$';
+
+		if (user->Position[1][0] == storeman->Position[1][0] && user->Position[1][1] == storeman->Position[1][1]){
+			printf("Welcome to my humble shop...\n\n");
+		}
+
+
+		storeman->Position[0][0] = storeman->Position[1][0];
+		storeman->Position[0][1] = storeman->Position[1][1];
+	}
+}
+
+SalesMan addSalesman(){
+	SalesMan temp = malloc(sizeof(SalesManSize));
+	temp->Position[1][0] = rand() % 20;
+	temp->Position[1][1] = rand() % 80;
+
+	temp->Position[0][0] = temp->Position[1][0];
+	temp->Position[0][1] = temp->Position[1][1];
 
 	return temp;
 }
