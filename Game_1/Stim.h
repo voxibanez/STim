@@ -15,18 +15,48 @@ typedef struct enemy{
 	int drop_rareity;
 }EnemySize, *Enemy;
 
-typedef struct salesman{
-	int Position[2][2];
-}SalesManSize,*SalesMan;
-
 typedef struct weapon{
-	char* name;
+	char* NAME;
 	double weaponMod;
 	double attackModMin;
 	double attackModMax;
 	double AccMod;
 	int isPhysical;
-}Weapon,*WeaponPtr;
+	char* DESCRIPTION;
+}Weapon, *WeaponPtr;
+
+typedef struct potion{
+	char* NAME;
+	int MAXHPRAISE;
+	int HPRAISE;
+	int ATKRAISE;
+	int DEFRAISE;
+	int MATKRAISE;
+	int MDEFRAISE;
+	int ACCRAISE;
+	int LCKRAISE;
+	char* DESCRIPTION;
+}Potion, *PotionPtr;
+
+typedef struct item{
+	WeaponPtr WEAPON;
+	PotionPtr POTION;
+	int QUANTITY;
+	struct item *next;
+	struct item *prev;
+}Item, *ItemPtr;
+
+typedef struct inventory{
+	int MAXSIZE;
+	int size;
+	ItemPtr head;
+}Inventory, *InventoryPtr;
+
+typedef struct salesman{
+	int Position[2][2];
+}SalesManSize, *SalesMan;
+
+
 
 typedef struct player{
 	int Position[2][2];
@@ -43,9 +73,12 @@ typedef struct player{
 	int LCK;
 	int CURRENCY;
 	int CLASS;
+	int BATTLES;
 
 	WeaponPtr weaponLeft;
 	WeaponPtr weaponRight;
+
+	InventoryPtr INVENTORY;
 
 }PlayerSize, *Player;
 
@@ -66,7 +99,6 @@ void cleric(void);
 void rogue(void);
 int character_select(Player user);
 void menu(void);
-void inventory(void);
 void stats();
 void save();
 void quit();
