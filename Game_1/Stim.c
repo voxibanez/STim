@@ -26,7 +26,7 @@ double DMG,eDMG,WMOD1,WMOD2,WMULT1,WMULT2;
 
 int isskeleton=0, istroll=0, isgoblin=0, isorc=0;
 int eHP, temp_eHP, eATK, eDEF, eMATK, eMDEF, eACC, eLCK, eWMOD, enemy_level = 1, enemy = 1, drop_rarity;
-void enemy_combat(void);
+void enemy_combat(Enemy en, Player user);
 void lv1drops();
 int drop_roll();
 void pickup_weapon(int*weapon);
@@ -34,57 +34,84 @@ void pickup_potion();
 void pickup_misc(int * misc);
 //to make different potion types, just make an array and each space will represent a type
 Enemy lv1_pick_monster(void);
-void your_attack(void);
-void enemy_attack(void);
-void encounter(void);
+void your_attack(Enemy en, Player user);
+void enemy_attack(Enemy en, Player user);
+void encounter(Enemy en,Player user,char** screen);
 void combat(void);
 void meditate(void);
 //work on meditate
 void clear_buffer(void);
 void skeleton(void);
-void enemy_attacks(void);
+void enemy_attacks(Enemy en, Player user);
 void goblin(void);
 void orc(void);
 void troll(void);
 
-int main(int argc, char* argv[])
+int main2(int argc, char* argv[])
 {
 	srand(time(NULL));
-	character_select();
+	//character_select();
 	for (;;)
 		menu();	
 	return 0;
 }
 
 
-void character_select(void)
+int character_select(Player user)
 {
 	int pick, up=4,low=1,i;
-	printf("Choose your character: \n\n");
+	printf("Choose a name for your character: ");
+	scanf("%s", user->NAME);
+	printf("%s, Choose your character: \n\n",user->NAME);
 	printf("(1) Warrior\n(2) Cleric\n(3) Mage\n(4) Rogue\n\n");
 	i=scanf("%d", &pick);
 	pick = dumb_user(pick,up,low,i);
+	user->CLASS = pick;
 	switch (pick)
 	{
 	case 1:
 		printf("You are a Warrior! Your armor gives you strength.\n\n");
-		HP = 11;
-		warrior();
+		user->HP = 11;
+		user->MAXHP = 11;
+		user->ATK = 11;
+		user->DEF = 13;
+		user->MATK = 6;
+		user->MDEF = 12;
+		user->ACC = 70;
+		user->LCK = 8;
 		break;
 	case 2:
 		printf("You are a Cleric! Potions are good to the last drop.\n\n");
-		HP = 15;
-		cleric();
+		user->HP = 15;
+		user->MAXHP = 15;
+		user->ATK = 14;
+		user->DEF = 9;
+		user->MATK = 10;
+		user->MDEF = 12;
+		user->ACC = 60;
+		user->LCK = 10;
 		break;
 	case 3:
 		printf("You are a Mage! Runes are your friends!\n\n");
-		HP = 10;
-		mage();
+		user->HP = 10;
+		user->MAXHP = 10;
+		user->ATK = 7;
+		user->DEF = 10;
+		user->MATK = 15;
+		user->MDEF = 14;
+		user->ACC = 80;
+		user->LCK = 10;
 		break;
 	case 4:
 		printf("You are a Rogue! Sorry, you can't sneak.\n\n");
-		HP = 8;
-		rogue();
+		user->HP = 8;
+		user->MAXHP = 8;
+		user->ATK = 10;
+		user->DEF = 10;
+		user->MATK = 9;
+		user->MDEF = 9;
+		user->ACC = 90;
+		user->LCK = 15;
 		break;
 	}
 }
@@ -159,13 +186,14 @@ void rogue(void)
 
 Enemy lv1_pick_monster(void)
 {
+	int r = (rand() % 4);
 	Enemy temp = malloc(sizeof(EnemySize));
 	temp->NAME = malloc(sizeof(char) * 10);
 	temp->Position[0][0] = rand() % 20;
 	temp->Position[0][1] = rand() % 80;
 	temp->Position[1][0] = temp->Position[0][0];
 	temp->Position[1][1] = temp->Position[0][1];
-	int r = (rand() % 4);
+	
 	if (r == 0){
 		temp->MAXHP = 8 + (.2*enemy_level);
 		temp->ATK = 6 + (.2*enemy_level);
@@ -206,23 +234,24 @@ Enemy lv1_pick_monster(void)
 		temp->NAME= "Orc";
 		temp->drop_rareity = 1.5;
 	}
-	else if (r == 3)
-	temp->MAXHP = 18 + (.2*enemy_level);
-	temp->ATK = 14 + (.2*enemy_level);
-	temp->DEF = 2 + (.2*enemy_level);
-	temp->MATK = 10 + (.2*enemy_level);
-	temp->MDEF = 6 + (.2*enemy_level);
-	temp->ACC = 65;
-	temp->LCK = 10 + (.2*enemy_level);
-	temp->HP = temp->MAXHP;
-	temp->WMOD = 1.3;
-	temp->NAME = "Troll";
-	temp->drop_rareity = 3;
+	else if (r == 3){
+		temp->MAXHP = 18 + (.2*enemy_level);
+		temp->ATK = 14 + (.2*enemy_level);
+		temp->DEF = 2 + (.2*enemy_level);
+		temp->MATK = 10 + (.2*enemy_level);
+		temp->MDEF = 6 + (.2*enemy_level);
+		temp->ACC = 65;
+		temp->LCK = 10 + (.2*enemy_level);
+		temp->HP = temp->MAXHP;
+		temp->WMOD = 1.3;
+		temp->NAME = "Troll";
+		temp->drop_rareity = 3;
+	}
 }
 
-void enemy_attack(void)
+void enemy_attack(Enemy en, Player user)
 {
-	if (eHP <= 0)
+	if (en->HP <= 0)
 	{
 		printf("\n\nYou have slain the monster, but the horde continues in its path of destruction\n\n\n");
 		lv1drops();
@@ -234,25 +263,27 @@ void enemy_attack(void)
 		switch (enemy)
 		{
 		case 1:
-			enemy_attacks();
+			enemy_attacks(en,user);
 			break;
 		}
 	}
 	
 }
-void encounter(void)
+void encounter(Enemy en,Player user,char** screen)
 {
-
-	lv1_pick_monster();
+	char temp[30];
+	int i;
+	
 	//surpise attack
 	for (;;)
 	{
 		clear_buffer();
-		your_attack();
-		enemy_attack();
-		if (eHP <= 0)
+		your_attack(en,user);
+		
+		enemy_attack(en,user);
+		if (en->HP <= 0)
 			break;
-	if (HP <= 0)
+	if (user->HP <= 0)
 		{
 			printf("\nYOU DIED\n\n\nHonor rank: %d\n",enemy_level);
 
@@ -263,11 +294,11 @@ void encounter(void)
 	
 }
 
-void your_attack()
+void your_attack(Enemy en,Player user)
 {
 	int attack, i,up=3, low=1;
-	printf("HP: %d/%d\n(1) Basic Attack\n",HP,MAX_HP);
-	damage_range();
+	printf("HP: %d/%d\n(1) Basic Attack\n",user->HP,user->MAXHP);
+	//damage_range();
 	printf("(2)Use Potion (x%d)\n",potions);
 	i=scanf("%d", &attack);
 	attack = dumb_user(attack, up, low, i);
@@ -286,14 +317,14 @@ void your_attack()
 		else if (isrogue == 1)
 			*/
 
-		combat();
+		combat(en,user);
 		break;
 	case 2:
 		if (potions == 0)
 		{
 			system("cls");
 			printf("You have no potions!\n");
-			your_attack();
+			your_attack(en, user);
 		}
 		else
 			use_potion();
@@ -301,45 +332,26 @@ void your_attack()
 	//case 3: 
 		//break;
 	}
+	updateScreen();
 }
 
-void combat(void)
+void combat(Enemy en,Player user)
 {
-	system("cls");
+	updateScreen();
+	//system("cls");
 	int roll,min,max,loss;
+
+	min = user->weaponLeft->attackModMin;
+	max = user->weaponLeft->attackModMax;
 	//should I incorporate luck?
 	//damage range is taking into account DMG as the average damage
-	if (issword == 1)
-	{
-		//anywhere within 30% of DMG
-		min = DMG*.7;
-		max = DMG*1.3;
-	}
-	else if (ismace == 1)
-	{
-		//anywhere within 40% of DMG
-		min = DMG*.6;
-		max = DMG*1.4;
-	}
-	else if (isdagger == 1)
-	{
-		//anywhere within 10% of DMG
-		min = DMG*.9;
-		max = DMG*1.1;
-	}
-	else if (isrune == 1)
-	{
-		//anywhere within 20% of DMG
-		min = DMG*.8;
-		max = DMG*1.2;
-	}
-	roll = max - min+1;
+	roll = max - min + 1;
 	roll = rand() % roll;
 	roll += min;
-	int r = rand() % 100,luck=floor(110-LCK*1.2);
+	int r = rand() % 100,luck=floor(110-user->LCK*1.2);
 	r += 1;
-	if (r > ACC)
-		printf("You miss!\nEnemy is at %d HP\n",eHP);
+	if (r > user->ACC)
+		printf("You miss!\nEnemy is at %d HP\n",en->HP);
 	else
 	{
 		r = rand() % 100;
@@ -350,28 +362,31 @@ void combat(void)
 			DMG *= 2;
 		}
 //could implement critical modifier on weapons
-		if (is_magic_main==1)
-			loss = roll - eMDEF;
-		if (is_physical_main==1)
-			loss = roll - eDEF;
+		if (user->weaponLeft->isPhysical == 0)
+			loss = roll - en->MDEF;
+		else
+			loss = roll - en->DEF;
 		if (loss < 1)
 			loss = 1;
-		eHP = eHP - loss;
-		printf("You delivered %d damage. Enemy is at %d HP\n", loss, eHP);
+		en->HP = en->HP - loss;
+		printf("You delivered %d damage. Enemy is at %d HP  and you had a roll of: %d \n", loss, en->HP,roll);
 		if (r>=luck)
 			DMG /= 2;
-		if (isrogue == 1)
+		if (user->CLASS == 4)
 		{
 			r = rand() % 100;
 			r += LCK*.2 + 1;
 			if (r >= 95)
 			{
 				printf("\nYou have the agility to do something else!\n\n");
-				your_attack();
+				your_attack(en, user);
 			}
 				
 		}
 	}
+	Sleep(500);
+	getch();
+	updateScreen();
 }
 void clear_buffer(void)
 {
@@ -382,35 +397,38 @@ void clear_buffer(void)
 		scanf("%c", &c);
 	}
 }
-void enemy_combat(void)
+void enemy_combat(Enemy en, Player user)
 {
 	//figure out enemy ranges
 	int max,luck,min,r = rand() % 100;
 	r += 1;
-	if (isskeleton == 1)
-		max = eDMG*1.2, min = eDMG*.8;
-	if (isgoblin == 1)
-		max = eDMG*1.1, min = eDMG*.9;
-	if (isorc == 1)
-		max = eDMG*1.2, min = eDMG*.9;
-	if (istroll == 1)
-		max = eDMG*1.3, min = eDMG*1;
+	if (en->NAME = "Skeleton")
+		max = en->ATK*1.2, min = en->ATK*.8;
+	if (en->NAME == "Goblin")
+		max = en->ATK*1.1, min = en->ATK*.9;
+	if (en->NAME == "Orc")
+		max = en->ATK*1.2, min = en->ATK*.9;
+	if (en->NAME == "Troll")
+		max = en->ATK*1.3, min = en->ATK * 1;
 	int roll = max - min + 1;
 	roll = rand() % roll;
 	roll += min;
-	r = rand() % 100, luck = floor(110 - LCK*1.2);
-	if (r > eACC)
+	r = rand() % 100, luck = floor(110 - user->LCK*1.2);
+	if (r > en->ACC)
 	{
 		printf("The enemy missed!\n");
 	}
 	else
 	{
-		int loss = roll - DEF;
+		int loss = roll - user->DEF;
 		if (loss < 1)
 			loss = 1;
-		HP = HP - loss;
-		printf("Enemy delivered %d damage. You are at %d HP\n\n", loss, HP);
+		user->HP = user->HP - loss;
+		printf("Enemy delivered %d damage. You are at %d HP\n\n", loss, user->HP);
 	}
+	Sleep(500);
+	getch();
+	updateScreen();
 }
 
 void skeleton(void)
@@ -463,37 +481,37 @@ void troll(void)
 	istroll = 1;
 	drop_rarity = 3;
 }
-void enemy_attacks(void)
+void enemy_attacks(Enemy en, Player user)
 {
-	int r = rand() % 100,half_hp = temp_eHP / 2, crit=110-eLCK*1.2;
+	int r = rand() % 100,half_hp = en->HP / 2, crit=110-en->LCK*1.2;
 	r += 1;
-	if (half_hp > eHP)
+	if (en->HP < half_hp)
 	{
-		if (isskeleton == 1)
+		if (en->NAME == "Skeleton")
 			printf("\nIt's bones are shaking\n\n");
-		else if (isgoblin == 1)
+		else if (en->NAME == "Goblin")
 			printf("\nThe goblin squeals for mercy\n\n");
-		else if (isorc == 1)
+		else if (en->NAME == "Orc")
 			printf("\nThe orc coughs up blood\n\n");
-		else if (istroll == 1)
+		else if (en->NAME =="Troll")
 			printf("\nThe troll spits out a tooth\n\n");
 	}
-	eDMG = eATK*eWMOD;
+	 en->ATK = en->ATK*en->WMOD;
 	if (r >= crit)
 	{
-		if (isskeleton == 1)
+		if (en->NAME == "Skeleton")
 			printf("\nThe skeleton cackles with glee!\n\n");
-		else if (isgoblin == 1)
+		else if (en->NAME == "Goblin")
 			printf("\nThe goblin is giddy\n\n");
-		else if (isorc == 1)
+		else if (en->NAME == "Orc")
 			printf("\nThe orc deals a heavy blow!\n\n");
-		else if (istroll == 1)
+		else if (en->NAME == "Troll")
 			printf("\nThe troll smashes you\n\n");
-		eDMG *= 2;
+		en->ATK *= 2;
 	}
-	enemy_combat();
-	if (r >= eLCK)
-		eDMG /= 2;
+	enemy_combat(en, user);
+	if (r >= en->LCK)
+		en->ATK /= 2;
 }
 void menu(void)
 {
@@ -507,7 +525,7 @@ void menu(void)
 	{
 	case 1:
 		system("cls");
-		encounter();
+		//encounter(en, user);
 		break;
 	case 2:
 		system("cls");
@@ -947,10 +965,10 @@ void isdual()
 	}
 		//this might be a huge nerf to accuracy
 }
-void damage_range()
+void damage_range(Player user)
 {
 	int min, max;
-	if (issword == 1)
+	if (user->weaponLeft == "Wooden Sword")
 	{
 		//anywhere within 30% of DMG
 		min = DMG*.7;

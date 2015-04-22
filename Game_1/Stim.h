@@ -12,10 +12,21 @@ typedef struct enemy{
 	int ACC;
 	int LCK;
 	int WMOD;
-
-	int IsSkeleton;
 	int drop_rareity;
 }EnemySize, *Enemy;
+
+typedef struct salesman{
+	int Position[2][2];
+}SalesManSize,*SalesMan;
+
+typedef struct weapon{
+	char* name;
+	double weaponMod;
+	double attackModMin;
+	double attackModMax;
+	double AccMod;
+	int isPhysical;
+}Weapon,*WeaponPtr;
 
 typedef struct player{
 	int Position[2][2];
@@ -31,6 +42,10 @@ typedef struct player{
 	int ACC;
 	int LCK;
 	int CURRENCY;
+	int CLASS;
+
+	WeaponPtr weaponLeft;
+	WeaponPtr weaponRight;
 
 }PlayerSize, *Player;
 
@@ -49,7 +64,7 @@ void warrior(void);
 void mage(void);
 void cleric(void);
 void rogue(void);
-void character_select(void);
+int character_select(Player user);
 void menu(void);
 void inventory(void);
 void stats();
@@ -73,3 +88,4 @@ void your_armor();
 void who_are_you();
 int dumb_user(int select, int upper, int lower, int i);
 char dumb_user_yn(char answer, int i);
+
