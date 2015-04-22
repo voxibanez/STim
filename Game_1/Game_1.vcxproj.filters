@@ -40,6 +40,18 @@
     <Text Include="Player.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Orc.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Goblin.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Troll.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Unknown.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stim.c">

@@ -1,3 +1,50 @@
+typedef struct enemy{
+	int Position[2][2];
+
+	char* NAME;
+	int MAXHP;
+	int HP;
+	int LEVEL;
+	int ATK;
+	int DEF;
+	int MATK;
+	int MDEF;
+	int ACC;
+	int LCK;
+	int WMOD;
+
+	int IsSkeleton;
+	int drop_rareity;
+}EnemySize, *Enemy;
+
+typedef struct player{
+	int Position[2][2];
+
+	char NAME[64];
+	int MAXHP;
+	int HP;
+	int LEVEL;
+	int ATK;
+	int DEF;
+	int MATK;
+	int MDEF;
+	int ACC;
+	int LCK;
+	int CURRENCY;
+
+}PlayerSize, *Player;
+
+typedef struct animation{
+	int frameCount;
+	int sizeX;
+	int sizeY;
+	int speed;
+	char*** frames;
+
+
+}Animation, *AnimationPtr;
+
+
 void warrior(void);
 void mage(void);
 void cleric(void);

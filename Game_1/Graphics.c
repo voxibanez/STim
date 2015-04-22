@@ -11,52 +11,7 @@
 #include <sys/types.h>
 #include <errno.h>
 
-typedef struct enemy{
-	int Position[2][2];
 
-	char* NAME;
-	int MAXHP;
-	int HP;
-	int LEVEL;
-	int ATK;
-	int DEF;
-	int MATK;
-	int MDEF;
-	int ACC;
-	int LCK;
-	int WMOD;
-
-	int IsSkeleton;
-	int drop_rareity;
-}EnemySize,*Enemy;
-
-typedef struct player{
-	int Position[2][2];
-
-	char NAME[64];
-	int MAXHP;
-	int HP;
-	int LEVEL;
-	int ATK;
-	int DEF;
-	int MATK;
-	int MDEF;
-	int ACC;
-	int LCK;
-	int WMOD;
-
-
-}PlayerSize,*Player;
-
-typedef struct animation{
-	int frameCount;
-	int sizeX;
-	int sizeY;
-	int speed;
-	char*** frames;
-
-
-}Animation,*AnimationPtr;
 
 void titleScreen();
 void setWindow();
@@ -84,7 +39,7 @@ int screenCounter;
 char ground;
 char*** characters;
 char** playerSprite;
-
+Enemy* enemies;
 
 
 HANDLE wHnd;    // Handle to write to the console.
@@ -94,16 +49,22 @@ AnimationPtr boxes;
 int main(int argc, char* argv[]){
 	int i, j, k;
 	Player mainChar = malloc(sizeof(PlayerSize));
-	Enemy enemies = malloc(sizeof(EnemySize));
 	char key_code;
 	boxes = initAnimation(80, 20, 80);
-	characters = malloc(1 * sizeof(char));
-	characters[0] = loadArt("Skeleton.txt");
+	characters = malloc(5 * sizeof(char*));
+	characters[0] = loadArt("Unknown.txt");
+	characters[1] = loadArt("Skeleton.txt");
+	characters[2] = loadArt("Goblin.txt");
+	characters[3] = loadArt("Orc.txt");
+	characters[4] = loadArt("Troll.txt");
 	playerSprite = loadArt("Player.txt");
 
-	enemies->NAME = malloc(sizeof(char)*10);
-	enemies->NAME = "Skeleton";
-	enemies->LEVEL = 2;
+	srand(time(NULL));
+
+	enemies = malloc(sizeof(Enemy) * 3);
+	for (i = 0; i < 3; i++)
+		enemies[i] = NULL;
+	
 
 	for (i = 0; i < 79; i++)
 	{
@@ -130,7 +91,6 @@ int main(int argc, char* argv[]){
 				boxes->frames[i][k][j] = 219;
 			boxes->frames[i][k][j] = 219;
 		}
-		
 			
 	
 	
@@ -159,10 +119,7 @@ int main(int argc, char* argv[]){
 			screen[i][j] = ground;
 	}
 
-	enemies->Position[0][0] = 5;
-	enemies->Position[0][1] = 5;
-	enemies->Position[1][0] = 5;
-	enemies->Position[1][1] = 5;
+
 
 	updateEnemyPosition(enemies,mainChar);
 
@@ -252,6 +209,8 @@ void updateScreen(){
 }
 
 void updatePlayerPosition(Player user){
+	int i;
+
 	if (user->Position[1][0] < 0)
 		user->Position[1][0] = 0;
 	if (user->Position[1][1] < 0)
@@ -262,6 +221,16 @@ void updatePlayerPosition(Player user){
 	if (user->Position[1][1] > 78)
 		user->Position[1][1] = 78;
 
+	if (rand() % 50 == 0)
+		for (i = 0; i < 3; i++){
+			if (enemies[i] == NULL){
+				enemies[i] = lv1_pick_monster();
+				break;
+			}
+				
+		}
+			
+
 	screen[user->Position[0][0]][user->Position[0][1]] = ground;
 	screen[user->Position[1][0]][user->Position[1][1]] = 219;
 
@@ -271,47 +240,52 @@ void updatePlayerPosition(Player user){
 
 }
 
-void updateEnemyPosition(Enemy en,Player user){
+void updateEnemyPosition(Enemy* en,Player user){
+	int i;
+	for (i = 0; i<3; i++){
+		if (en[i] != NULL){
+			if ((rand() % 2) == 1){
+				if (user->Position[1][0] > en[i]->Position[1][0])
+					en[i]->Position[1][0] ++;
+				else if (user->Position[1][0] < en[i]->Position[1][0])
+					en[i]->Position[1][0] --;
+			}
+			else{
+				if (user->Position[1][1] > en[i]->Position[1][1])
+					en[i]->Position[1][1] ++;
+				else if (user->Position[1][1] < en[i]->Position[1][1])
+					en[i]->Position[1][1] --;
+			}
 
-	if ((rand() % 2) == 1){
-		if (user->Position[1][0] > en->Position[1][0])
-			en->Position[1][0] ++;
-		else if (user->Position[1][0] < en->Position[1][0])
-			en->Position[1][0] --;
+
+			if (en[i]->Position[1][0] < 0)
+				en[i]->Position[1][0] = 0;
+			if (en[i]->Position[1][1] < 0)
+				en[i]->Position[1][1] = 0;
+
+			if (en[i]->Position[1][0] > 20)
+				en[i]->Position[1][0] = 19;
+			if (en[i]->Position[1][1] > 78)
+				en[i]->Position[1][1] = 78;
+
+
+
+
+			screen[en[i]->Position[0][0]][en[i]->Position[0][1]] = ground;
+			screen[en[i]->Position[1][0]][en[i]->Position[1][1]] = 233;
+
+			if (user->Position[1][0] == en[i]->Position[1][0] && user->Position[1][1] == en[i]->Position[1][1]){
+				ground = ' ';
+				addAnimation(boxes, 0, 0);
+				battleSequence(en[i], user);
+			}
+
+
+			en[i]->Position[0][0] = en[i]->Position[1][0];
+			en[i]->Position[0][1] = en[i]->Position[1][1];
+		}
 	}
-	else{
-		if (user->Position[1][1] > en->Position[1][1])
-			en->Position[1][1] ++;
-		else if (user->Position[1][1] < en->Position[1][1])
-			en->Position[1][1] --;
-	}
-		
-
-	if (en->Position[1][0] < 0)
-		en->Position[1][0] = 0;
-	if (en->Position[1][1] < 0)
-		en->Position[1][1] = 0;
-
-	if (en->Position[1][0] > 20)
-		en->Position[1][0] = 19;
-	if (en->Position[1][1] > 78)
-		en->Position[1][1] = 78;
-
 	
-
-
-	screen[en->Position[0][0]][en->Position[0][1]] = ground;
-	screen[en->Position[1][0]][en->Position[1][1]] = 233;
-
-	if (user->Position[1][0] == en->Position[1][0] && user->Position[1][1] == en->Position[1][1]){
-		ground = ' ';
-		addAnimation(boxes, 0, 0);
-		battleSequence(en, user);
-	}
-
-
-	en->Position[0][0] = en->Position[1][0];
-	en->Position[0][1] = en->Position[1][1];
 
 
 }
@@ -398,14 +372,34 @@ void battleSequence(Enemy en, Player user){
 	char temp[64];
 	int offsetX = 0;
 	int offsetY = 0;
+	int maxOffset = 1;
 
 
 
 
-	if (en->NAME == "Skeleton")
-		enemyIndex = 0;
+	if (en->NAME == "Skeleton"){
+		enemyIndex = 1;
+		maxOffset = 38;
+	}
+	else if (en->NAME == "Goblin"){
+		enemyIndex = 2;
+		maxOffset = 20;
+	}
+	else if (en->NAME == "Orc"){
+		enemyIndex = 3;
+		maxOffset = 28;
+	}
+	else if (en->NAME == "Troll"){
+		enemyIndex = 4;
+		maxOffset = 20;
+	}
+	else{
+	enemyIndex = 0;
+	maxOffset = 40;
+	}
 
-		while (offsetX < 38){
+
+		while (offsetX < maxOffset){
 			for (i = 0; characters[enemyIndex][i] != NULL && i < 20; i++){
 				for (j = 0; characters[enemyIndex][i][j] != NULL && i < 78; j++){
 
@@ -416,7 +410,7 @@ void battleSequence(Enemy en, Player user){
 			}
 			updateScreen();
 			Sleep(20);
-			if (offsetX > 0 && offsetX < 37){
+			if (offsetX > 0 && offsetX < maxOffset-1){
 				for (i = 0; characters[enemyIndex][i] != NULL && i < 20; i++){
 					for (j = 0; characters[enemyIndex][i][j] != NULL && i < 78; j++){
 
@@ -434,9 +428,9 @@ void battleSequence(Enemy en, Player user){
 			for (i = 0; i < strlen(temp); i++){
 				screen[1][i + 3] = temp[i];
 				updateScreen();
-				Sleep(1);
+				Sleep(20);
 			}
-
+			Sleep(1000);
 
 		for (i = 0; playerSprite[i] != NULL && i < 10; i++){
 			for (j = 0; playerSprite[i][j] != NULL && i < 78; j++){

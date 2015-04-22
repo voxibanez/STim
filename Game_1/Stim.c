@@ -33,7 +33,7 @@ void pickup_weapon(int*weapon);
 void pickup_potion();
 void pickup_misc(int * misc);
 //to make different potion types, just make an array and each space will represent a type
-void lv1_pick_monster(void);
+Enemy lv1_pick_monster(void);
 void your_attack(void);
 void enemy_attack(void);
 void encounter(void);
@@ -161,20 +161,67 @@ void rogue(void)
 
 
 
-void lv1_pick_monster(void)
+Enemy lv1_pick_monster(void)
 {
-	//skeleton
-	//enemy multiplier based on level
-	int r = rand() % 20;
-	r += 1;
-	if (r > 0 && r <= 5)
-		goblin();
-	else if (r > 5 && r <= 10)
-		skeleton();
-	else if (r > 10 && r <= 15)
-		orc();
-	else if (r > 15 && r <= 20)
-		troll();
+	Enemy temp = malloc(sizeof(EnemySize));
+	temp->NAME = malloc(sizeof(char) * 10);
+	temp->Position[0][0] = rand() % 20;
+	temp->Position[0][1] = rand() % 80;
+	temp->Position[1][0] = temp->Position[0][0];
+	temp->Position[1][1] = temp->Position[0][1];
+	int r = (rand() % 4);
+	if (r == 0){
+		temp->MAXHP = 8 + (.2*enemy_level);
+		temp->ATK = 6 + (.2*enemy_level);
+		temp->DEF = 1 + (.2*enemy_level);
+		temp->MATK = 8 + (.2*enemy_level);
+		temp->MDEF + (.2*enemy_level);
+		temp->ACC = 90;
+		temp->LCK = 5 + (.2*enemy_level);
+		temp->HP = MAX_HP;
+		temp->WMOD = 1.15;
+		temp->NAME = "Goblin";
+		temp->drop_rareity = .5;
+	}
+	else if (r == 1){
+		temp->MAXHP = 10 + (.2*enemy_level);
+		temp->ATK = 10 + (.2*enemy_level);
+		temp->DEF = 5 + (.2*enemy_level);
+		temp->MATK = 10 + (.2*enemy_level);
+		temp->MDEF = 5 + (.2*enemy_level);
+		temp->ACC = 80;
+		temp->LCK = 10 + (.2*enemy_level);
+		temp->WMOD = 1.25;
+		temp->HP = temp->MAXHP;
+		temp->NAME = "Skeleton";
+		temp->drop_rareity = 1;
+	}
+	
+	else if (r == 2){
+		temp->MAXHP = 12 + (.2*enemy_level);
+		temp->ATK = 12 + (.2*enemy_level);
+		temp->DEF = 6 + (.2*enemy_level);
+		temp->MATK = 8 + (.2*enemy_level);
+		temp->MDEF = 4 + (.2*enemy_level);
+		temp->ACC = 75;
+		temp->LCK = 10 + (.2*enemy_level);
+		temp->HP = temp->MAXHP;
+		temp->WMOD = 1.25;
+		temp->NAME= "Orc";
+		temp->drop_rareity = 1.5;
+	}
+	else if (r == 3)
+	temp->MAXHP = 18 + (.2*enemy_level);
+	temp->ATK = 14 + (.2*enemy_level);
+	temp->DEF = 2 + (.2*enemy_level);
+	temp->MATK = 10 + (.2*enemy_level);
+	temp->MDEF = 6 + (.2*enemy_level);
+	temp->ACC = 65;
+	temp->LCK = 10 + (.2*enemy_level);
+	temp->HP = temp->MAXHP;
+	temp->WMOD = 1.3;
+	temp->NAME = "Troll";
+	temp->drop_rareity = 3;
 }
 
 void enemy_attack(void)
@@ -403,17 +450,7 @@ void goblin(void)
 void orc(void)
 {
 	printf("A Lv. %d menacing orc appears!\n\n",enemy_level);
-	eHP = 12 + (.2*enemy_level);
-	eATK = 12 + (.2*enemy_level);
-	eDEF = 6 + (.2*enemy_level);
-	eMATK = 8 + (.2*enemy_level);
-	eMDEF = 4 + (.2*enemy_level);
-	eACC = 75;
-	eLCK = 10 + (.2*enemy_level);
-	temp_eHP = eHP;
-	eWMOD = 1.25;
-	isorc = 1;
-	drop_rarity = 1.5;
+	
 }
 void troll(void)
 {

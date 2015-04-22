@@ -85,8 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Game_info.txt" />
+    <Text Include="Goblin.txt" />
+    <Text Include="Orc.txt" />
     <Text Include="Player.txt" />
     <Text Include="Skeleton.txt" />
+    <Text Include="Troll.txt" />
+    <Text Include="Unknown.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.c" />
