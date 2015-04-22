@@ -38,6 +38,8 @@ void your_attack(void);
 void enemy_attack(void);
 void encounter(void);
 void combat(void);
+void meditate(void);
+//work on meditate
 void clear_buffer(void);
 void skeleton(void);
 void enemy_attacks(void);
@@ -391,7 +393,7 @@ void goblin(void)
 	eDEF = 1 + (.2*enemy_level);
 	eMATK = 8 + (.2*enemy_level);
 	eMDEF = 1 + (.2*enemy_level);
-	eACC = 50;
+	eACC = 90;
 	eLCK = 5 + (.2*enemy_level);
 	temp_eHP = eHP;
 	eWMOD = 1.15;
@@ -406,7 +408,7 @@ void orc(void)
 	eDEF = 6 + (.2*enemy_level);
 	eMATK = 8 + (.2*enemy_level);
 	eMDEF = 4 + (.2*enemy_level);
-	eACC = 80;
+	eACC = 75;
 	eLCK = 10 + (.2*enemy_level);
 	temp_eHP = eHP;
 	eWMOD = 1.25;
@@ -421,7 +423,7 @@ void troll(void)
 	eDEF = 2 + (.2*enemy_level);
 	eMATK = 10 + (.2*enemy_level);
 	eMDEF = 6 + (.2*enemy_level);
-	eACC = 70;
+	eACC = 65;
 	eLCK = 10 + (.2*enemy_level);
 	temp_eHP = eHP;
 	eWMOD = 1.3;
@@ -462,7 +464,7 @@ void enemy_attacks(void)
 }
 void menu(void)
 {
-	int select, up=5, low=1,i;
+	int select, up=6, low=1,i;
 	who_are_you();
 	printf("What would you like to do?\n");
 	printf("(1) Venture into the unknown\n(2)Check your inventory\n(3)Check your stats\n(4)Save\n(5)Quit\n");
@@ -484,9 +486,13 @@ void menu(void)
 		break;
 	case 4:
 		system("cls");
-		save();
+		meditate();
 		break;
 	case 5:
+		system("cls");
+		save();
+		break;
+	case 6:
 		system("cls");
 		quit();
 		break;
@@ -586,7 +592,7 @@ void armor()
 int drop_roll()
 {
 	int r = rand() % 30;
-	int bonus = floor(r - 1 + .0000000002*LCK + drop_rarity);
+	int bonus = floor(r - 1 + .2*LCK + drop_rarity);
 	return bonus;
 }
 void lv1drops()
@@ -986,4 +992,8 @@ void mage_reroll()
 		if (answer == 'y' || answer == 'Y')
 			lv1drops();
 	}
+}
+void meditate(void)
+{
+	return;
 }

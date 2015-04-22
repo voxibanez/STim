@@ -8,6 +8,7 @@ void inventory(void);
 void stats();
 void save();
 void quit();
+void meditate();
 void drop_main_weapon();
 void drop_off_weapon();
 void drop_armor();
