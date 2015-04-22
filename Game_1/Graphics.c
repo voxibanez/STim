@@ -406,8 +406,8 @@ void battleSequence(Enemy en, Player user){
 		enemyIndex = 0;
 
 		while (offsetX < 38){
-			for (i = 0; characters[enemyIndex][i] != NULL; i++){
-				for (j = 0; characters[enemyIndex][i][j] != NULL; j++){
+			for (i = 0; characters[enemyIndex][i] != NULL && i < 20; i++){
+				for (j = 0; characters[enemyIndex][i][j] != NULL && i < 78; j++){
 
 					screen[i][j + offsetX] = characters[enemyIndex][i][j];
 
@@ -417,8 +417,8 @@ void battleSequence(Enemy en, Player user){
 			updateScreen();
 			Sleep(20);
 			if (offsetX > 0 && offsetX < 37){
-				for (i = 0; characters[enemyIndex][i] != NULL; i++){
-					for (j = 0; characters[enemyIndex][i][j] != NULL; j++){
+				for (i = 0; characters[enemyIndex][i] != NULL && i < 20; i++){
+					for (j = 0; characters[enemyIndex][i][j] != NULL && i < 78; j++){
 
 						screen[i][j + offsetX - 1] = ground;
 
@@ -438,8 +438,8 @@ void battleSequence(Enemy en, Player user){
 			}
 
 
-		for (i = 0; playerSprite[i] != NULL; i++){
-			for (j = 0; playerSprite[i][j] != NULL; j++){
+		for (i = 0; playerSprite[i] != NULL && i < 10; i++){
+			for (j = 0; playerSprite[i][j] != NULL && i < 78; j++){
 
 				screen[i+10][j] = playerSprite[i][j];
 				
