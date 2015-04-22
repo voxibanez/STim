@@ -47,7 +47,7 @@ void goblin(void);
 void orc(void);
 void troll(void);
 
-int main2(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
 	srand(time(NULL));
 	character_select();
@@ -103,7 +103,6 @@ void warrior(void)
 	your_off_weapon();
 	your_armor();
 	DMG=calc_dmg();
-	isdual();
 	iswarrior = 1;
 }
 void mage(void)
@@ -120,7 +119,6 @@ void mage(void)
 	your_off_weapon();
 	your_armor();
 	DMG = calc_dmg();
-	isdual();
 	mage_roll = 1;
 	ismage = 1;
 }
@@ -138,7 +136,6 @@ void cleric(void)
 	your_off_weapon();
 	your_armor();
 	DMG = calc_dmg();
-	isdual();
 	iscleric = 1;
 }
 void rogue(void)
@@ -155,7 +152,6 @@ void rogue(void)
 	your_off_weapon();
 	your_armor();
 	DMG = calc_dmg();
-	isdual();
 	isrogue = 1;
 }
 
@@ -504,7 +500,7 @@ void menu(void)
 	int select, up=6, low=1,i;
 	who_are_you();
 	printf("What would you like to do?\n");
-	printf("(1) Venture into the unknown\n(2)Check your inventory\n(3)Check your stats\n(4)Save\n(5)Quit\n");
+	printf("(1) Venture into the unknown\n(2)Check your inventory\n(3)Check your stats\n(4)Meditate\n(5)Save\n(6)Quit\n");
 	i=scanf("%d", &select);
 	select = dumb_user(select, up, low,i);
 	switch (select)
@@ -705,20 +701,19 @@ void lv1drops()
 }
 void pickup_weapon(int* weapon)
 {
-	int i, answer2, answer3;
-	char answer1;
+	int i, answer1,answer2, answer3;
 	printf("Your main hand: ");
 	main_hand();
 	printf("\nYour off Hand: ");
 	off_hand();
-	printf("\n\nWould you like to pick it up?(y/n)\n");
-	i = scanf(" %c", &answer1);
-	answer1 = dumb_user_yn(answer1, i);
-	if (answer1 == 'y' || answer1 == 'Y')
+	printf("\nWould you like to pick it up?\n(1) Yes\n(2) No\n");
+	i = scanf(" %d", &answer1);
+	answer1 = dumb_user(answer1, 2, 1, i);
+	if (answer1==1)
 		{
 		if (ismain_hand == 1 && isoff_hand == 1)
 		{
-			printf("Would you like to equip it to your main hand(1) or off hand(2)?\n");
+			printf("\nWould you like to equip it to your main hand(1) or off hand(2)?\n");
 			clear_buffer();
 			i = scanf("%d", &answer2);
 			answer2 = dumb_user(answer2, 2, 1, i);
@@ -741,12 +736,11 @@ void pickup_weapon(int* weapon)
 }
 void pickup_potion()
 {
-	int i, answer2, answer3;
-	char answer1;
-	printf("Would you like to pick it up?(y/n)\n");
-	i = scanf(" %c", &answer1);
-	answer1 = dumb_user_yn(answer1, i);
-	if (answer1 == 'y' || answer1 == 'Y')
+	int i, answer1, answer2, answer3;
+	printf("\nWould you like to pick it up?\n(1) Yes\n(2) No\n");
+	i = scanf(" %d", &answer1);
+	answer1 = dumb_user(answer1,2,1, i);
+	if (answer1 == 1)
 	{
 		printf("The potion is yours! Huzzah!\n");
 		potions++;
@@ -754,14 +748,13 @@ void pickup_potion()
 }
 void pickup_misc(int* misc)
 {
-	int i;
-	char answer1;
+	int i, answer1;
 	printf("Your armor: ");
 	armor();
-	printf("\n\nWould you like to equip the armor?(y/n)\n");
-	i = scanf(" %c", &answer1);
-	answer1 = dumb_user_yn(answer1, i);
-	if (answer1 == 'y' || answer1 == 'Y')
+	printf("\nWould you like to pick it up?\n(1) Yes\n(2) No\n");
+	i = scanf(" %d", &answer1);
+	answer1 = dumb_user(answer1, 2, 1, i);
+	if (answer1 == 1)
 	{
 		drop_armor();
 		misc[0] = 1;
@@ -1017,20 +1010,53 @@ void use_potion()
 }
 void mage_reroll()
 {
-	int i;
-	char answer;
+	int i, answer;
 	if (ismage == 1)
 	{
-		printf("Would you like to cast Transform (y/n)?\n");
 		clear_buffer();
-		i = scanf("%c", &answer);
-		answer=dumb_user_yn(answer,i);
+		printf("\nWould you like to pick it up?\n(1) Yes\n(2) No\n");
+		i = scanf(" %d", &answer);
+		answer = dumb_user(answer, 2, 1, i);
 		mage_roll = 0;
-		if (answer == 'y' || answer == 'Y')
+		if (answer == 1)
 			lv1drops();
 	}
 }
 void meditate(void)
 {
+	int i, answer;
+	printf("Every adventurer needs a well-earned rest. What shall you do?\n"
+		"(1) Drink a potion\n(2) Dual Wield your weapons\n(3) Two-hand a weapon\n");
+	i = scanf(" %d", &answer);
+	answer = dumb_user(answer, 3, 1, i);
+	switch (answer)
+	{
+	case 1: 
+		if (potions == 0)
+			printf("You have no potions!\n"); 
+		else
+			printf("Drink up");
+		Sleep(1000);
+		printf(".");
+		Sleep(1000);
+		printf(".");
+		Sleep(1000);
+		printf(".");
+		Sleep(1000);
+		use_potion();
+		break;
+	case 2:
+		isdual();
+		if (dual == 0)
+			printf("You do not have 2 weapons equipped!\n");
+		else
+			printf("Two weapons are better than one!\n");
+		break;
+	case 3:
+		break;
+	}
+	
+	
+	
 	return;
 }
