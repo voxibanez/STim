@@ -19,12 +19,12 @@ your mom
 int wooden_sword[] = { 0, 0 }, fire_rune[] = { 0, 0 }, wood_club[] = { 0, 0 }, chipped_dagger[] = { 1, 0 };
 int potions = 3;
 int light_armor[] = { 0 }, heavy_armor[] = { 0 }, dual = 0, isrune = 0, ismace = 0, issword = 0, isdagger = 0;
-int ismain_hand = 1, isoff_hand = 0, isarmor = 0,is_magic_main=0, is_magic_off=0, is_physical_main=1, is_physical_off=0;
+int ismain_hand = 1, isoff_hand = 0, isarmor = 0, is_magic_main = 0, is_magic_off = 0, is_physical_main = 1, is_physical_off = 0;
 int mage_roll = 0, HP, MAX_HP, ATK, DEF, MATK, MDEF, ACC, LCK, iswarrior = 0, isrogue = 0, ismage = 0, iscleric = 0;
-double DMG,eDMG,WMOD1,WMOD2,WMULT1,WMULT2;
+double DMG, eDMG, WMOD1, WMOD2, WMULT1, WMULT2;
 //calculate damage split
 
-int isskeleton=0, istroll=0, isgoblin=0, isorc=0;
+int isskeleton = 0, istroll = 0, isgoblin = 0, isorc = 0;
 int eHP, temp_eHP, eATK, eDEF, eMATK, eMDEF, eACC, eLCK, eWMOD, enemy_level = 1, enemy = 1, drop_rarity;
 void enemy_combat(Enemy en, Player user);
 void lv1drops();
@@ -36,7 +36,7 @@ void pickup_misc(int * misc);
 Enemy lv1_pick_monster(void);
 void your_attack(Enemy en, Player user);
 void enemy_attack(Enemy en, Player user);
-void encounter(Enemy en,Player user,char** screen);
+void encounter(Enemy en, Player user, char** screen);
 void combat(void);
 void meditate(void);
 //work on meditate
@@ -46,27 +46,33 @@ void enemy_attacks(Enemy en, Player user);
 void goblin(void);
 void orc(void);
 void troll(void);
+void addItem(Player user, ItemPtr it);
+void removeItem(Player user, int quantity, char* name);
+
 
 int main2(int argc, char* argv[])
 {
 	srand(time(NULL));
 	//character_select();
 	for (;;)
-		menu();	
+		menu();
 	return 0;
 }
 
 
 int character_select(Player user)
 {
-	int pick, up=4,low=1,i;
+	int pick, up = 4, low = 1, i;
 	printf("Choose a name for your character: ");
 	scanf("%s", user->NAME);
-	printf("%s, Choose your character: \n\n",user->NAME);
+	printf("%s, Choose your character: \n\n", user->NAME);
 	printf("(1) Warrior\n(2) Cleric\n(3) Mage\n(4) Rogue\n\n");
-	i=scanf("%d", &pick);
-	pick = dumb_user(pick,up,low,i);
+	i = scanf("%d", &pick);
+	pick = dumb_user(pick, up, low, i);
 	user->CLASS = pick;
+
+	//user->INVENTORY->head = NULL;
+
 	switch (pick)
 	{
 	case 1:
@@ -120,16 +126,16 @@ void warrior(void)
 {
 	MAX_HP = 11;
 	ATK = 11;
-	DEF = 13; 
-	MATK = 6; 
-	MDEF = 12; 
+	DEF = 13;
+	MATK = 6;
+	MDEF = 12;
 	ACC = 70;
 	LCK = 8;
-	issword = 0, isrune = 0, ismace = 0, isdagger = 0,isarmor=0;
+	issword = 0, isrune = 0, ismace = 0, isdagger = 0, isarmor = 0;
 	your_main_weapon();
 	your_off_weapon();
 	your_armor();
-	DMG=calc_dmg();
+	DMG = calc_dmg();
 	iswarrior = 1;
 }
 void mage(void)
@@ -193,7 +199,8 @@ Enemy lv1_pick_monster(void)
 	temp->Position[0][1] = rand() % 80;
 	temp->Position[1][0] = temp->Position[0][0];
 	temp->Position[1][1] = temp->Position[0][1];
-	
+	enemy_level = 1;
+	temp->LEVEL = 1;
 	if (r == 0){
 		temp->MAXHP = 8 + (.2*enemy_level);
 		temp->ATK = 6 + (.2*enemy_level);
@@ -220,7 +227,7 @@ Enemy lv1_pick_monster(void)
 		temp->NAME = "Skeleton";
 		temp->drop_rareity = 1;
 	}
-	
+
 	else if (r == 2){
 		temp->MAXHP = 12 + (.2*enemy_level);
 		temp->ATK = 12 + (.2*enemy_level);
@@ -231,7 +238,7 @@ Enemy lv1_pick_monster(void)
 		temp->LCK = 10 + (.2*enemy_level);
 		temp->HP = temp->MAXHP;
 		temp->WMOD = 1.25;
-		temp->NAME= "Orc";
+		temp->NAME = "Orc";
 		temp->drop_rareity = 1.5;
 	}
 	else if (r == 3){
@@ -263,61 +270,61 @@ void enemy_attack(Enemy en, Player user)
 		switch (enemy)
 		{
 		case 1:
-			enemy_attacks(en,user);
+			enemy_attacks(en, user);
 			break;
 		}
 	}
-	
+
 }
-void encounter(Enemy en,Player user,char** screen)
+void encounter(Enemy en, Player user, char** screen)
 {
 	char temp[30];
 	int i;
-	
+
 	//surpise attack
 	for (;;)
 	{
 		clear_buffer();
-		your_attack(en,user);
-		
-		enemy_attack(en,user);
+		your_attack(en, user);
+
+		enemy_attack(en, user);
 		if (en->HP <= 0)
 			break;
-	if (user->HP <= 0)
+		if (user->HP <= 0)
 		{
-			printf("\nYOU DIED\n\n\nHonor rank: %d\n",enemy_level);
+			printf("\nYOU DIED\n\n\nHonor rank: %d\n", enemy_level);
 
 			exit(1);
 			break;
 		}
 	}
-	
+
 }
 
-void your_attack(Enemy en,Player user)
+void your_attack(Enemy en, Player user)
 {
-	int attack, i,up=3, low=1;
-	printf("HP: %d/%d\n(1) Basic Attack\n",user->HP,user->MAXHP);
+	int attack, i, up = 3, low = 1;
+	printf("HP: %d/%d\n(1) Basic Attack\n", user->HP, user->MAXHP);
 	//damage_range();
-	printf("(2)Use Potion (x%d)\n",potions);
-	i=scanf("%d", &attack);
+	printf("(2)Use Potion (x%d)\n", potions);
+	i = scanf("%d", &attack);
 	attack = dumb_user(attack, up, low, i);
 	switch (attack)
 	{
-// attacks are determined by weapons multiplier: sword with str*.2
-// DMG=(weapon*attack)-defense ifDMG<1, DMG = 1
+		// attacks are determined by weapons multiplier: sword with str*.2
+		// DMG=(weapon*attack)-defense ifDMG<1, DMG = 1
 	case 1:
 		/*printf("You consider your options\n");
 		if (iscleric == 1)
-			
-		else if (iswarrior == 1)
-			
-		else if (ismage == 1)
-			
-		else if (isrogue == 1)
-			*/
 
-		combat(en,user);
+		else if (iswarrior == 1)
+
+		else if (ismage == 1)
+
+		else if (isrogue == 1)
+		*/
+
+		combat(en, user);
 		break;
 	case 2:
 		if (potions == 0)
@@ -329,29 +336,29 @@ void your_attack(Enemy en,Player user)
 		else
 			use_potion();
 		break;
-	//case 3: 
+		//case 3: 
 		//break;
 	}
 	updateScreen();
 }
 
-void combat(Enemy en,Player user)
+void combat(Enemy en, Player user)
 {
 	updateScreen();
 	//system("cls");
-	int roll,min,max,loss;
+	int roll, min, max, loss;
 
 	min = user->weaponLeft->attackModMin;
 	max = user->weaponLeft->attackModMax;
 	//should I incorporate luck?
 	//damage range is taking into account DMG as the average damage
 	roll = max - min + 1;
-	roll = rand() % roll;
+	roll = rand() % roll * 10;
 	roll += min;
-	int r = rand() % 100,luck=floor(110-user->LCK*1.2);
+	int r = rand() % 100, luck = floor(110 - user->LCK*1.2);
 	r += 1;
 	if (r > user->ACC)
-		printf("You miss!\nEnemy is at %d HP\n",en->HP);
+		printf("You miss!\nEnemy is at %d HP\n", en->HP);
 	else
 	{
 		r = rand() % 100;
@@ -361,7 +368,7 @@ void combat(Enemy en,Player user)
 			printf("\nYou score a critical hit!\n");
 			DMG *= 2;
 		}
-//could implement critical modifier on weapons
+		//could implement critical modifier on weapons
 		if (user->weaponLeft->isPhysical == 0)
 			loss = roll - en->MDEF;
 		else
@@ -369,8 +376,8 @@ void combat(Enemy en,Player user)
 		if (loss < 1)
 			loss = 1;
 		en->HP = en->HP - loss;
-		printf("You delivered %d damage. Enemy is at %d HP  and you had a roll of: %d \n", loss, en->HP,roll);
-		if (r>=luck)
+		printf("You delivered %d damage. Enemy is at %d HP  and you had a roll of: %d \n", loss, en->HP, roll);
+		if (r >= luck)
 			DMG /= 2;
 		if (user->CLASS == 4)
 		{
@@ -381,7 +388,7 @@ void combat(Enemy en,Player user)
 				printf("\nYou have the agility to do something else!\n\n");
 				your_attack(en, user);
 			}
-				
+
 		}
 	}
 	Sleep(500);
@@ -400,7 +407,7 @@ void clear_buffer(void)
 void enemy_combat(Enemy en, Player user)
 {
 	//figure out enemy ranges
-	int max,luck,min,r = rand() % 100;
+	int max, luck, min, r = rand() % 100;
 	r += 1;
 	if (en->NAME = "Skeleton")
 		max = en->ATK*1.2, min = en->ATK*.8;
@@ -433,10 +440,10 @@ void enemy_combat(Enemy en, Player user)
 
 void skeleton(void)
 {
-	printf("A Lv. %d spooky skeleton appears!\n\n",enemy_level);
+	printf("A Lv. %d spooky skeleton appears!\n\n", enemy_level);
 	eHP = 10 + (.2*enemy_level);
 	eATK = 10 + (.2*enemy_level);
-	eDEF = 5+(.2*enemy_level);
+	eDEF = 5 + (.2*enemy_level);
 	eMATK = 10 + (.2*enemy_level);
 	eMDEF = 5 + (.2*enemy_level);
 	eACC = 80;
@@ -463,12 +470,12 @@ void goblin(void)
 }
 void orc(void)
 {
-	printf("A Lv. %d menacing orc appears!\n\n",enemy_level);
-	
+	printf("A Lv. %d menacing orc appears!\n\n", enemy_level);
+
 }
 void troll(void)
 {
-	printf("A Lv. %d terrifying troll charges you!\n\n",enemy_level);
+	printf("A Lv. %d terrifying troll charges you!\n\n", enemy_level);
 	eHP = 18 + (.2*enemy_level);
 	eATK = 14 + (.2*enemy_level);
 	eDEF = 2 + (.2*enemy_level);
@@ -483,7 +490,7 @@ void troll(void)
 }
 void enemy_attacks(Enemy en, Player user)
 {
-	int r = rand() % 100,half_hp = en->HP / 2, crit=110-en->LCK*1.2;
+	int r = rand() % 100, half_hp = en->HP / 2, crit = 110 - en->LCK*1.2;
 	r += 1;
 	if (en->HP < half_hp)
 	{
@@ -493,10 +500,11 @@ void enemy_attacks(Enemy en, Player user)
 			printf("\nThe goblin squeals for mercy\n\n");
 		else if (en->NAME == "Orc")
 			printf("\nThe orc coughs up blood\n\n");
-		else if (en->NAME =="Troll")
+		else if (en->NAME == "Troll")
 			printf("\nThe troll spits out a tooth\n\n");
+		Sleep(1000);
 	}
-	 en->ATK = en->ATK*en->WMOD;
+	en->ATK = en->ATK*en->WMOD;
 	if (r >= crit)
 	{
 		if (en->NAME == "Skeleton")
@@ -508,19 +516,21 @@ void enemy_attacks(Enemy en, Player user)
 		else if (en->NAME == "Troll")
 			printf("\nThe troll smashes you\n\n");
 		en->ATK *= 2;
+		Sleep(1000);
 	}
+
 	enemy_combat(en, user);
 	if (r >= en->LCK)
 		en->ATK /= 2;
 }
 void menu(void)
 {
-	int select, up=6, low=1,i;
+	int select, up = 6, low = 1, i;
 	who_are_you();
 	printf("What would you like to do?\n");
-	printf("(1) Venture into the unknown\n(2)Check your inventory\n(3)Check your stats\n(4)Meditate\n(5)Save\n(6)Quit\n");
-	i=scanf("%d", &select);
-	select = dumb_user(select, up, low,i);
+	printf("(2)Check your inventory\n(3)Check your stats\n(4)Meditate\n(5)Save\n(6)Quit\n");
+	i = scanf("%d", &select);
+	select = dumb_user(select, up, low, i);
 	switch (select)
 	{
 	case 1:
@@ -529,7 +539,7 @@ void menu(void)
 		break;
 	case 2:
 		system("cls");
-		inventory();
+		//inventory();
 		break;
 	case 3:
 		system("cls");
@@ -549,31 +559,9 @@ void menu(void)
 		break;
 	}
 }
-void inventory()
-{
-	main_hand();
-	if (ismain_hand==1)
-		printf("\n");
-	off_hand();
-	if(isoff_hand==1)
-		printf("\n");
-	armor();
-	if (isarmor == 1)
-		printf("\n");
-	int i;
-	if (potions > 0)
-	{
-		if (potions == 1)
-			printf("x1 Potion\n");
-		else
-			printf("x%d Potions\n", potions);
-	}
-	printf("\n\n");
-	
-}
 void stats()
 {
-	printf("HP: %d/%d\nATK: %d\nDEF: %d\nMATK: %d\nMDEF: %d\nACC: %d\nLCK: %d\n\n", HP,MAX_HP, ATK, DEF, MATK, MDEF, ACC, LCK);
+	printf("HP: %d/%d\nATK: %d\nDEF: %d\nMATK: %d\nMDEF: %d\nACC: %d\nLCK: %d\n\n", HP, MAX_HP, ATK, DEF, MATK, MDEF, ACC, LCK);
 	printf("Main hand: ");
 	main_hand();
 	printf("\nOff hand: ");
@@ -590,7 +578,7 @@ void quit()
 {
 	exit(1);
 }
-int dumb_user(int select, int upper, int lower,int i)
+int dumb_user(int select, int upper, int lower, int i)
 {
 	for (;;)
 	{
@@ -635,10 +623,10 @@ void off_hand()
 }
 void armor()
 {
-	if (light_armor[0] == 1)	
-			printf("Light Armor (+1 DEF, +2 MDEF,+1 HP,+5 ACC)");
+	if (light_armor[0] == 1)
+		printf("Light Armor (+1 DEF, +2 MDEF,+1 HP,+5 ACC)");
 	if (heavy_armor[0] == 1)
-			printf("Heavy Armor (+2 DEF, +1 MDEF,+3HP)");
+		printf("Heavy Armor (+2 DEF, +1 MDEF,+3HP)");
 }
 int drop_roll()
 {
@@ -659,7 +647,7 @@ void lv1drops()
 		printf("The enemy dropped a chipped dagger.\n\n\nDropped Item: Chipped Dagger (-1 ATK, 1.1 MOD)\n\n");
 		if (mage_roll == 1)
 			mage_reroll();
-		else if (mage_roll==0)
+		else if (mage_roll == 0)
 			pickup_weapon(chipped_dagger);
 	}
 	if (roll >= 9 && roll < 13)
@@ -669,7 +657,7 @@ void lv1drops()
 		printf("The enemy dropped a wood club.\n\n\nDropped Item: Wood Club (+3 ATK, 1 MOD)\n\n");
 		if (mage_roll == 1)
 			mage_reroll();
-		else if (mage_roll==0)
+		else if (mage_roll == 0)
 			pickup_weapon(wood_club);
 	}
 	if (roll >= 13 && roll < 18)
@@ -680,7 +668,7 @@ void lv1drops()
 		else if (mage_roll == 0)
 			pickup_potion();
 	}
-	if (roll >=18&&roll<22)
+	if (roll >= 18 && roll<22)
 	{
 		ismain_hand = 1;
 		isoff_hand = 1;
@@ -690,7 +678,7 @@ void lv1drops()
 		else if (mage_roll == 0)
 			pickup_weapon(wooden_sword);
 	}
-	if (roll>=22&&roll<25)
+	if (roll >= 22 && roll<25)
 	{
 		ismain_hand = 1;
 		isoff_hand = 1;
@@ -719,7 +707,7 @@ void lv1drops()
 }
 void pickup_weapon(int* weapon)
 {
-	int i, answer1,answer2, answer3;
+	int i, answer1, answer2, answer3;
 	printf("Your main hand: ");
 	main_hand();
 	printf("\nYour off Hand: ");
@@ -727,8 +715,8 @@ void pickup_weapon(int* weapon)
 	printf("\nWould you like to pick it up?\n(1) Yes\n(2) No\n");
 	i = scanf(" %d", &answer1);
 	answer1 = dumb_user(answer1, 2, 1, i);
-	if (answer1==1)
-		{
+	if (answer1 == 1)
+	{
 		if (ismain_hand == 1 && isoff_hand == 1)
 		{
 			printf("\nWould you like to equip it to your main hand(1) or off hand(2)?\n");
@@ -741,23 +729,23 @@ void pickup_weapon(int* weapon)
 				weapon[0] = 1;
 				ismain_hand = 1;
 			}
-				
+
 			else
 			{
 				drop_off_weapon();
 				weapon[1] = 1;
 			}
-				
+
 		}
 		//use else if () for other drop types				
-		}
+	}
 }
 void pickup_potion()
 {
 	int i, answer1, answer2, answer3;
 	printf("\nWould you like to pick it up?\n(1) Yes\n(2) No\n");
 	i = scanf(" %d", &answer1);
-	answer1 = dumb_user(answer1,2,1, i);
+	answer1 = dumb_user(answer1, 2, 1, i);
 	if (answer1 == 1)
 	{
 		printf("The potion is yours! Huzzah!\n");
@@ -814,22 +802,22 @@ void who_are_you()
 double calc_dmg()
 {
 
-	if(is_physical_main==1&&is_magic_off==1)
-		DMG = (ATK+WMOD1)*WMULT1+(MATK+WMOD2)*WMULT2;
-	if (is_magic_main==1&&is_physical_off==1)
+	if (is_physical_main == 1 && is_magic_off == 1)
+		DMG = (ATK + WMOD1)*WMULT1 + (MATK + WMOD2)*WMULT2;
+	if (is_magic_main == 1 && is_physical_off == 1)
 		DMG = (MATK + WMOD1)*WMULT1 + (ATK + WMOD2)*WMULT2;
-	if (is_magic_main==1&&is_magic_off==1)
+	if (is_magic_main == 1 && is_magic_off == 1)
 		DMG = (MATK + WMOD1)*WMULT1 + (MATK + WMOD2)*WMULT2;
-	if (is_physical_main==1&&is_physical_off==1)
+	if (is_physical_main == 1 && is_physical_off == 1)
 		DMG = (ATK + WMOD1)*WMULT1 + (ATK + WMOD2)*WMULT2;
 	if (is_physical_main == 1 && is_physical_off == 0 && is_magic_main == 0 && is_magic_off == 0)
 		DMG = (ATK + WMOD1)*WMULT1;
 	if (is_physical_main == 0 && is_physical_off == 1 && is_magic_main == 0 && is_magic_off == 0)
-		DMG = (ATK/2 + WMOD2)*WMULT2;
+		DMG = (ATK / 2 + WMOD2)*WMULT2;
 	if (is_physical_main == 0 && is_physical_off == 0 && is_magic_main == 1 && is_magic_off == 0)
 		DMG = (MATK + WMOD1)*WMULT1;
 	if (is_physical_main == 0 && is_physical_off == 0 && is_magic_main == 0 && is_magic_off == 1)
-		DMG = (MATK/2 + WMOD2)*WMULT2;
+		DMG = (MATK / 2 + WMOD2)*WMULT2;
 	return DMG;
 }
 void your_armor()
@@ -841,7 +829,7 @@ void your_armor()
 		MAX_HP += 1;
 		ACC += 5;
 	}
-		
+
 	if (heavy_armor[0] == 1)
 	{
 		DEF += 2;
@@ -853,10 +841,10 @@ void your_main_weapon()
 {
 	if (wooden_sword[0] == 1)
 	{
-	WMOD1 = 0, WMULT1 = 1.5;
-	is_magic_main = 0;
-	is_physical_main = 1;
-	issword = 1;
+		WMOD1 = 0, WMULT1 = 1.5;
+		is_magic_main = 0;
+		is_physical_main = 1;
+		issword = 1;
 	}
 	if (fire_rune[0] == 1)
 	{
@@ -963,7 +951,7 @@ void isdual()
 		DMG *= .9;
 		ACC *= .8;
 	}
-		//this might be a huge nerf to accuracy
+	//this might be a huge nerf to accuracy
 }
 void damage_range(Player user)
 {
@@ -1049,9 +1037,9 @@ void meditate(void)
 	answer = dumb_user(answer, 3, 1, i);
 	switch (answer)
 	{
-	case 1: 
+	case 1:
 		if (potions == 0)
-			printf("You have no potions!\n"); 
+			printf("You have no potions!\n");
 		else
 			printf("Drink up");
 		Sleep(1000);
@@ -1073,8 +1061,56 @@ void meditate(void)
 	case 3:
 		break;
 	}
-	
-	
-	
+
+
+
 	return;
 }
+
+void addItem(Player user, ItemPtr it){
+	ItemPtr temp = user->INVENTORY->head;
+	if (user->INVENTORY->head == NULL)
+		user->INVENTORY->head = it;
+	else{
+		while (temp->next != NULL){
+			if (it->POTION != NULL && temp->POTION != NULL){
+				if (it->POTION->NAME == temp->POTION->NAME){
+					temp->QUANTITY++;
+					return;
+				}
+			}
+			if (it->WEAPON != NULL && temp->WEAPON != NULL){
+				if (it->WEAPON->NAME == temp->WEAPON->NAME){
+					temp->QUANTITY++;
+					return;
+				}
+			}
+			temp = temp->next;
+		}
+		it->prev = temp;
+		temp->next = it;
+	}
+}
+
+void removeItem(Player user, int quantity, char* name){
+	ItemPtr temp = user->INVENTORY->head;
+
+	while (temp->next != NULL){
+		if (temp->POTION != NULL){
+			if (name == temp->POTION->NAME){
+				temp->next = temp->prev;
+				return;
+			}
+		}
+		if (temp->WEAPON != NULL){
+			if (name == temp->WEAPON->NAME){
+				temp->next = temp->prev;
+				return;
+			}
+		}
+		temp = temp->next;
+	}
+
+	free(temp);
+}
+

@@ -60,5 +60,8 @@
     <ClCompile Include="Graphics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryLinkedList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
