@@ -1,4 +1,28 @@
+<<<<<<< HEAD
 ﻿Build started 4/21/2015 9:56:54 PM.
+=======
+<<<<<<< Updated upstream
+<<<<<<< HEAD
+﻿Build started 4/18/2015 7:03:29 AM.
+=======
+<<<<<<< HEAD
+﻿Build started 4/21/2015 8:20:57 PM.
+=======
+﻿Build started 4/21/2015 8:29:16 PM.
+>>>>>>> Stashed changes
+Project "\\psf\Home\Documents\STim\Game_1\Game_1.vcxproj" on node 2 (Build target(s)).
+Link:
+  Game_1.vcxproj -> \\psf\Home\Documents\STim\Debug\Game_1.exe
+Done Building Project "\\psf\Home\Documents\STim\Game_1\Game_1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+<<<<<<< Updated upstream
+Time Elapsed 00:00:01.07
+=======
+﻿Build started 4/17/2015 11:58:31 AM.
+>>>>>>> origin/master
+>>>>>>> origin/master
      1>Project "C:\Users\ccapt_000\Desktop\STim\Game_1\Game_1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt Stim.c
@@ -105,4 +129,16 @@
 
 Build succeeded.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:01.47
+=======
+<<<<<<< HEAD
+Time Elapsed 00:00:01.54
+=======
+Time Elapsed 00:00:01.26
+>>>>>>> origin/master
+>>>>>>> origin/master
+=======
+Time Elapsed 00:00:00.46
+>>>>>>> Stashed changes
+>>>>>>> origin/master
