@@ -47,7 +47,7 @@ void goblin(void);
 void orc(void);
 void troll(void);
 
-int main(int argc, char* argv[])
+int main2(int argc, char* argv[])
 {
 	srand(time(NULL));
 	character_select();

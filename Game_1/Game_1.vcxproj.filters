@@ -21,6 +21,9 @@
     <ClInclude Include="Stim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game_1.rc">
@@ -31,9 +34,18 @@
     <Text Include="Game_info.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Skeleton.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Player.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stim.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bass.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stim.h" />
   </ItemGroup>
@@ -84,8 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Game_info.txt" />
+    <Text Include="Player.txt" />
+    <Text Include="Skeleton.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics.c" />
     <ClCompile Include="Stim.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
