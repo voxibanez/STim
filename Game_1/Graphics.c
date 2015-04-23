@@ -95,6 +95,9 @@ int main(int argc, char* argv[]){
 	mainChar->weaponLeft = weapons[4];
 	mainChar->weaponRight = weapons[0];
 
+	tempItem->POTION = potions[0];
+	tempItem->QUANTITY = 2;
+	//addItem(mainChar, tempItem);
 
 	srand(time(NULL));
 
@@ -154,9 +157,6 @@ int main(int argc, char* argv[]){
 	srand(time(NULL));
 	ground = 176;
 
-	tempItem->POTION = potions[0];
-	tempItem->QUANTITY = 2;
-	addItem(mainChar, tempItem);
 	
 
 
@@ -541,7 +541,7 @@ char** loadArt(char* filename){
 	return temp;
 }
 
-WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double attackModMax, double AccMod, int isPhysical){
+WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double attackModMax, double AccMod, int isPhysical, char* DESCRIPTION){
 	WeaponPtr temp;
 	temp = malloc(sizeof(Weapon));
 	//temp->name = malloc(sizeof(char) * 20);
@@ -552,6 +552,7 @@ WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double a
 	temp->attackModMax = attackModMax;
 	temp->AccMod = AccMod;
 	temp->isPhysical = isPhysical;
+	temp->DESCRIPTION = DESCRIPTION;
 
 	return temp;
 }
