@@ -691,8 +691,8 @@ void menuGraphics(Player user){
 	updateScreen();
 
 	while (key_code != 13 && key_code != 27){
-		if (kbhit()){
-			key_code = getch();
+		key_code = getch();
+	
 			if (key_code == 'w' && cursor[2] > 0){
 				screen[cursor[0]][cursor[1]] = ' ';
 				cursor[0] -= 2;
@@ -718,7 +718,7 @@ void menuGraphics(Player user){
 			}
 			screen[cursor[0]][cursor[1]] = 219;
 			updateScreen();
-		}
+		
 
 	}
 
@@ -801,8 +801,8 @@ void inventoryGraphics(Player user){
 	updateScreen();
 
 	while (key_code != 13 && key_code != 27){
-		if (kbhit()){
-			key_code = getch();
+		key_code = getch();
+		
 			if (key_code == 'w' && cursor[0] > 5){
 				screen[cursor[0]][cursor[1]] = ' ';
 				cursor[0] -= 2;
@@ -838,7 +838,7 @@ void inventoryGraphics(Player user){
 			}
 			screen[cursor[0]][cursor[1]] = 219;
 			updateScreen();
-		}
+		
 	}
 }
 
