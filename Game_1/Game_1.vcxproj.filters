@@ -52,6 +52,9 @@
     <Text Include="Unknown.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Potion.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Stim.c">

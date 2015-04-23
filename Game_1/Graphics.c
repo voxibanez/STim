@@ -884,14 +884,14 @@ void itemBox(ItemPtr it){
 			{
 				screen[2][i + 41] = temp[i];
 			}
-			sprintf(temp, "Description: %.30s", it->POTION->DESCRIPTION);
+			sprintf(temp, "%.30s", it->POTION->DESCRIPTION);
 			for (i = 0; i < strlen(temp); i++)
 			{
-				screen[10][i + 41] = temp[i];
+				screen[11][i + 41] = temp[i];
 			}
 			for (i = 0; i < 11; i++){
-				for (j = 0; j < 11; j++)
-					screen[i + 1][j + 67] = characters[5][i][j];
+				for (j = 0; j < 16; j++)
+					screen[i + 2][j + 57] = characters[5][i][j];
 			}
 		}
 		
