@@ -858,7 +858,9 @@ void itemBox(ItemPtr it){
 			if (i == 1)
 			{
 				for (j = 40; j < 79; j++)
-					screen[1][j] = 219;
+					screen[0][j] = 219;
+				screen[1][40] = 219;
+				screen[1][78] = 219;
 			}
 			if (i > 1){
 				screen[18 - i][40] = 219;
@@ -884,14 +886,16 @@ void itemBox(ItemPtr it){
 			{
 				screen[2][i + 41] = temp[i];
 			}
-			sprintf(temp, "%.30s", it->POTION->DESCRIPTION);
+			sprintf(temp, "%s", it->POTION->DESCRIPTION);
 			for (i = 0; i < strlen(temp); i++)
 			{
 				screen[11][i + 41] = temp[i];
 			}
 			for (i = 0; i < 11; i++){
-				for (j = 0; j < 16; j++)
-					screen[i + 2][j + 57] = characters[5][i][j];
+				for (j = 0; j < 16; j++){
+					if (characters[5][i][j] != NULL && characters[5][i][j] != '\n');
+					screen[i + 1][j + 57] = characters[5][i][j];
+				}
 			}
 		}
 		
