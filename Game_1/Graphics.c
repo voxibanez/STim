@@ -41,7 +41,11 @@ AnimationPtr initAnimation(frames, x, y);
 void initPlayer();
 WeaponPtr initWeapon(char* name, double weaponModMin, double weaponModMax, double attackMod, double AccMod, int isPhysical, char* DESCRIPTION);
 
-PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE,char* DESCRIPTION);
+PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION);
+
+ItemPtr initItem(PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON);
+
+void itemBox(ItemPtr it);
 
 void inventoryGraphics(Player user);
 
@@ -63,18 +67,21 @@ AnimationPtr boxes;
 int main(int argc, char* argv[]){
 	int i, j, k;
 	Player mainChar = malloc(sizeof(PlayerSize));
-	ItemPtr tempItem = malloc(sizeof(Item));
+	ItemPtr tempItem;
 	char key_code;
 	boxes = initAnimation(80, 20, 80);
-	characters = malloc(5 * sizeof(char*));
+	characters = malloc(6 * sizeof(char*));
 	characters[0] = loadArt("Unknown.txt");
 	characters[1] = loadArt("Skeleton.txt");
 	characters[2] = loadArt("Goblin.txt");
 	characters[3] = loadArt("Orc.txt");
 	characters[4] = loadArt("Troll.txt");
+	characters[5] = loadArt("Potion.txt");
 	playerSprite = loadArt("Player.txt");
 	storeman = NULL;
 	mainChar->BATTLES = 1;
+
+	//mainChar->INVENTORY->size = 0;
 
 	
 
@@ -95,9 +102,9 @@ int main(int argc, char* argv[]){
 	mainChar->weaponLeft = weapons[4];
 	mainChar->weaponRight = weapons[0];
 
-	tempItem->POTION = potions[0];
-	tempItem->QUANTITY = 2;
-	//addItem(mainChar, tempItem);
+	//tempItem->POTION = potions[0];
+	//tempItem->QUANTITY = 2;
+	
 
 	srand(time(NULL));
 
@@ -149,7 +156,10 @@ int main(int argc, char* argv[]){
 	system("cls");
 
 	character_select(mainChar);
-
+	mainChar->INVENTORY = malloc(sizeof(Inventory));
+	mainChar->INVENTORY->head = malloc(sizeof(Item));
+	mainChar->INVENTORY->head = NULL;
+	mainChar->INVENTORY->size = 0;
 	system("cls");
 	printf("\n\n\n\n\t\t\t%s, Your journey begins here...\n", mainChar->NAME);
 	Sleep(1000);
@@ -157,6 +167,16 @@ int main(int argc, char* argv[]){
 	srand(time(NULL));
 	ground = 176;
 
+
+
+	tempItem = malloc(sizeof(Item));
+	tempItem->POTION = potions[0];
+	tempItem->QUANTITY = 3;
+	tempItem->next = NULL;
+
+	addItem(mainChar, potions[0],3,NULL);
+	addItem(mainChar, potions[0], 3,NULL);
+	addItem(mainChar, NULL, 1, weapons[2]);
 	
 
 
@@ -713,8 +733,11 @@ void menuGraphics(Player user){
 }
 
 void inventoryGraphics(Player user){
-	int i, j, k;
+	int i, j, k, l,m;
+	char tempScreen[20][80];
 	char temp[40];
+	int key_code = 0;
+	int cursor[3];
 	ItemPtr tempItem = user->INVENTORY->head;
 
 	for (i = 0; i < 25; i++){
@@ -733,29 +756,196 @@ void inventoryGraphics(Player user){
 		screen[3][i + 10] = temp[i];
 	}
 
-	i = 0;
-	while (tempItem->next != NULL)
+	i = 2;
+	k = 5;
+
+	for (l = 0; l < user->INVENTORY->size; l++)
 	{
+		for (m = 0; m < 21; m++)
+			temp[m] = ' ';
 		if (tempItem->POTION != NULL){
-			sprintf(temp, "%.20s x%d\0", tempItem->POTION->NAME, tempItem->QUANTITY);
+			sprintf(temp, "%.20s x%d", tempItem->POTION->NAME, tempItem->QUANTITY);
 		}
-		else if (tempItem->WEAPON != NULL){
-			sprintf(temp, "%.20s x%d\0", tempItem->POTION->NAME, tempItem->QUANTITY);
-		}
-		for (j = 0; j < 21; j++){
-			screen[k][i] = temp[j];
-			i++;
-		}
-		if (i > 39){
-			i = 0;
-			k++;
+		if (tempItem->WEAPON != NULL){
+			sprintf(temp, "%.20s x%d", tempItem->WEAPON->NAME, tempItem->QUANTITY);
 		}
 
+
+		for (j = 0; j < 20; j++){
+			if (temp[j] != NULL)
+				screen[k][i] = temp[j];
+			i++;
+		}
+	
+		if (i > 39){
+			i = 2;
+			k+=2;
+		}
+		tempItem = tempItem->next;
 
 	}
 	updateScreen();
 	getch();
+
+	for (i = 0; i < 20; i++){
+		for (j = 0; j < 40; j++)
+			tempScreen[i][j] = screen[i][j];
+	}
+
+	cursor[0] = 5;
+	cursor[1] = 1;
+	cursor[2] = 0;
+
+	screen[cursor[0]][cursor[1]] = 219;
+
+	updateScreen();
+
+	while (key_code != 13 && key_code != 27){
+		if (kbhit()){
+			key_code = getch();
+			if (key_code == 'w' && cursor[0] > 5){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[0] -= 2;
+				cursor[2] -=2;
+			}
+			if (key_code == 'a' && cursor[1] >= 20){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[1] -= 20;
+				cursor[2] --;
+			}
+			if (key_code == 'd' && (cursor[1] < 21 - (20*(user->INVENTORY->size%2)))){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[1] += 20;
+				cursor[2] ++;
+			}
+			if (key_code == 's' && cursor[0] < 4 + ceil(user->INVENTORY->size / 2)){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[0] += 2;
+				cursor[2] +=2;
+			}
+			if (key_code == 13){
+				switch (cursor[2]){
+				case 0:
+					itemBox(user->INVENTORY->head);
+					break;
+				case 1:
+					//printf("You are very handsome\n");
+					break;
+				case 2:
+					break;
+				}
+
+			}
+			screen[cursor[0]][cursor[1]] = 219;
+			updateScreen();
+		}
+	}
 }
+
+void itemBox(ItemPtr it){
+		char temp[20];
+		int cursor[3];
+		int i, j, k;
+		int key_code = 0;
+
+
+
+		for (i = 9; i > 0; i--){
+			for (j = 40; j < 79; j++){
+				screen[i][j] = ' ';
+				screen[18 - i][j] = ' ';
+			}
+			if (i == 1)
+			{
+				for (j = 40; j < 79; j++)
+					screen[1][j] = 219;
+			}
+			if (i > 1){
+				screen[18 - i][40] = 219;
+				screen[18 - i][78] = 219;
+				screen[i][40] = 219;
+				screen[i][78] = 219;
+			}
+			if (i == 1)
+			{
+				screen[17][40] = 219;
+				screen[17][78] = 219;
+				for (j = 40; j < 79; j++)
+					screen[18][j] = 219;
+			}
+			Sleep(20);
+			updateScreen();
+		}
+		
+		if (it->POTION != NULL)
+		{
+			sprintf(temp, "%.20s", it->POTION->NAME);
+			for (i = 0; i < strlen(temp); i++)
+			{
+				screen[2][i + 41] = temp[i];
+			}
+			sprintf(temp, "Description: %.30s", it->POTION->DESCRIPTION);
+			for (i = 0; i < strlen(temp); i++)
+			{
+				screen[10][i + 41] = temp[i];
+			}
+			for (i = 0; i < 11; i++){
+				for (j = 0; j < 11; j++)
+					screen[i + 1][j + 67] = characters[5][i][j];
+			}
+		}
+		
+		
+
+		updateScreen();
+		getch();
+
+		cursor[0] = 4;
+		cursor[1] = 4;
+		cursor[2] = 0;
+
+		screen[cursor[0]][cursor[1]] = 219;
+
+		updateScreen();
+
+		while (key_code != 13 && key_code != 27){
+			if (kbhit()){
+				key_code = getch();
+				if (key_code == 'w' && cursor[2] > 0){
+					screen[cursor[0]][cursor[1]] = ' ';
+					cursor[0] -= 2;
+					cursor[2] --;
+				}
+				if (key_code == 's' && cursor[2] < 2){
+					screen[cursor[0]][cursor[1]] = ' ';
+					cursor[0] += 2;
+					cursor[2] ++;
+				}
+				if (key_code == 13){
+					switch (cursor[2]){
+					case 0:
+						
+						break;
+					case 1:
+						printf("You are very handsome\n");
+						break;
+					case 2:
+						break;
+					}
+
+				}
+				screen[cursor[0]][cursor[1]] = 219;
+				updateScreen();
+			}
+
+		}
+
+			updateScreen();
+			Sleep(10);
+		}
+
+
+
 
 PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION){
 	PotionPtr temp = malloc(sizeof(Potion));
@@ -773,3 +963,16 @@ PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int 
 
 	return temp;
 }
+
+ItemPtr initItem(PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON){
+	ItemPtr temp = malloc(sizeof(Item));
+
+
+	temp->WEAPON = NULL;
+
+	temp->next = NULL;
+	temp->prev = NULL;
+
+	return temp;
+}
+
