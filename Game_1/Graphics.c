@@ -91,15 +91,15 @@ int main(int argc, char* argv[]){
 
 	weapons = malloc(sizeof(WeaponPtr*) * 5);
 	weapons[0] = initWeapon("Empty", 0.0, 0.0, 1.0, 100, 1,"Nothing to see here",NULL);
-	weapons[0]->picture = loadArt("Potion.txt");
+	weapons[0]->picture = loadArt("Unknown.txt");
 	weapons[1] = initWeapon("Wooden Sword", 0.0, 0.7, 1.3, 90, 1,"The strongest of all wooden swords",NULL);
-	weapons[1]->picture = loadArt("Potion.txt");
+	weapons[1]->picture = loadArt("Wooden Sword.txt");
 	weapons[2] = initWeapon("Fire Rune", 2.0, 0.8, 1.2, 70, 0,"HOT",NULL);
-	weapons[2]->picture = loadArt("Potion.txt");
+	weapons[2]->picture = loadArt("Fire Rune.txt");
 	weapons[3] = initWeapon("Wood Club", 3.0, 0.6, 1.4, 80, 1,"Big stick",NULL);
-	weapons[3]->picture = loadArt("Potion.txt");
+	weapons[3]->picture = loadArt("Wood Club.txt");
 	weapons[4] = initWeapon("Chipped Dagger", -1.0, 0.9, 1.1, 70, 1,"Sucks to suck",NULL);
-	weapons[4]->picture = loadArt("Potion.txt");
+	weapons[4]->picture = loadArt("Chipped Dagger.txt");
 
 	potions = malloc(sizeof(PotionPtr*) * 1);
 	potions[0] = initPotion("Potion",0,5,0,0,0,0,0,0,"A Simple Healing Potion","Potion.txt");
