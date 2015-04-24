@@ -39,9 +39,9 @@ void menuGraphics(Player user);
 
 AnimationPtr initAnimation(frames, x, y);
 void initPlayer();
-WeaponPtr initWeapon(char* name, double weaponModMin, double weaponModMax, double attackMod, double AccMod, int isPhysical, char* DESCRIPTION);
+WeaponPtr initWeapon(char* name, double weaponModMin, double weaponModMax, double attackMod, double AccMod, int isPhysical, char* DESCRIPTION, char* fileName);
 
-PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION);
+PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION, char* fileName);
 
 ItemPtr initItem(PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON);
 
@@ -72,13 +72,13 @@ int main(int argc, char* argv[]){
 	ItemPtr tempItem;
 	char key_code;
 	boxes = initAnimation(80, 20, 80);
-	characters = malloc(6 * sizeof(char*));
+	characters = malloc(5 * sizeof(char*));
 	characters[0] = loadArt("Unknown.txt");
 	characters[1] = loadArt("Skeleton.txt");
 	characters[2] = loadArt("Goblin.txt");
 	characters[3] = loadArt("Orc.txt");
 	characters[4] = loadArt("Troll.txt");
-	characters[5] = loadArt("Potion.txt");
+	
 	playerSprite = loadArt("Player.txt");
 	storeman = NULL;
 	mainChar->BATTLES = 1;
@@ -90,14 +90,20 @@ int main(int argc, char* argv[]){
 
 
 	weapons = malloc(sizeof(WeaponPtr*) * 5);
-	weapons[0] = initWeapon("Empty", 0.0, 0.0, 1.0, 100, 1,"Nothing to see here");
-	weapons[1] = initWeapon("Wooden Sword", 0.0, 0.7, 1.3, 90, 1,"The strongest of all wooden swords");
-	weapons[2] = initWeapon("Fire Rune", 2.0, 0.8, 1.2, 70, 0,"HOT");
-	weapons[3] = initWeapon("Wood Club", 3.0, 0.6, 1.4, 80, 1,"Big stick");
-	weapons[4] = initWeapon("Chipped Dagger", -1.0, 0.9, 1.1, 70, 1,"Sucks to suck");
+	weapons[0] = initWeapon("Empty", 0.0, 0.0, 1.0, 100, 1,"Nothing to see here",NULL);
+	weapons[0]->picture = loadArt("Potion.txt");
+	weapons[1] = initWeapon("Wooden Sword", 0.0, 0.7, 1.3, 90, 1,"The strongest of all wooden swords",NULL);
+	weapons[1]->picture = loadArt("Potion.txt");
+	weapons[2] = initWeapon("Fire Rune", 2.0, 0.8, 1.2, 70, 0,"HOT",NULL);
+	weapons[2]->picture = loadArt("Potion.txt");
+	weapons[3] = initWeapon("Wood Club", 3.0, 0.6, 1.4, 80, 1,"Big stick",NULL);
+	weapons[3]->picture = loadArt("Potion.txt");
+	weapons[4] = initWeapon("Chipped Dagger", -1.0, 0.9, 1.1, 70, 1,"Sucks to suck",NULL);
+	weapons[4]->picture = loadArt("Potion.txt");
 
 	potions = malloc(sizeof(PotionPtr*) * 1);
-	potions[0] = initPotion("Potion",0,5,0,0,0,0,0,0,"A Simple Healing Potion");
+	potions[0] = initPotion("Potion",0,5,0,0,0,0,0,0,"A Simple Healing Potion","Potion.txt");
+	potions[0]->picture = loadArt("Potion.txt");
 	//PotionPtr initPotion(char* name, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE);
 
 
@@ -584,7 +590,7 @@ char** loadArt(char* filename){
 	return temp;
 }
 
-WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double attackModMax, double AccMod, int isPhysical, char* DESCRIPTION){
+WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double attackModMax, double AccMod, int isPhysical, char* DESCRIPTION,char* fileName){
 	WeaponPtr temp;
 	temp = malloc(sizeof(Weapon));
 	//temp->name = malloc(sizeof(char) * 20);
@@ -596,7 +602,8 @@ WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double a
 	temp->AccMod = AccMod;
 	temp->isPhysical = isPhysical;
 	temp->DESCRIPTION = DESCRIPTION;
-
+	if (fileName != NULL)
+		temp->picture = loadArt(fileName);
 	return temp;
 }
 
@@ -956,10 +963,10 @@ void itemBox(Player user,ItemPtr it,int* exit){
 			}
 			for (i = 0; i < 10; i++){
 				for (j = 0; j < 13; j++){
-					if(characters[5][i][j] == NULL)
+					if(it->POTION->picture[i][j] == NULL)
 						break;
-					else if (characters[5][i][j] != '\n'){
-						screen[i + 1][j + 57] = characters[5][i][j];
+					else if (it->POTION->picture[i][j] != '\n'){
+						screen[i + 1][j + 57] = it->POTION->picture[i][j];
 					}
 				}
 			}
@@ -980,10 +987,10 @@ void itemBox(Player user,ItemPtr it,int* exit){
 			}
 			for (i = 0; i < 10; i++){
 				for (j = 0; j < 13; j++){
-					if (characters[5][i][j] == NULL)
+					if (it->WEAPON->picture[i][j] == NULL)
 						break;
-					else if (characters[5][i][j] != '\n'){
-						screen[i + 1][j + 57] = characters[5][i][j];
+					else if (it->WEAPON->picture[i][j] != '\n'){
+						screen[i + 1][j + 57] = it->WEAPON->picture[i][j];
 					}
 				}
 			}
@@ -1084,8 +1091,10 @@ void itemBox(Player user,ItemPtr it,int* exit){
 	}
 
 
-PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION){
+PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION,char* fileName){
+	int i;
 	PotionPtr temp = malloc(sizeof(Potion));
+
 
 	temp->NAME = NAME;
 	temp->MAXHPRAISE = MAXHPRAISE;

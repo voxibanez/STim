@@ -23,6 +23,7 @@ typedef struct weapon{
 	double AccMod;
 	int isPhysical;
 	char* DESCRIPTION;
+	char** picture;
 }Weapon, *WeaponPtr;
 
 typedef struct potion{
@@ -36,6 +37,7 @@ typedef struct potion{
 	int ACCRAISE;
 	int LCKRAISE;
 	char* DESCRIPTION;
+	char** picture;
 }Potion, *PotionPtr;
 
 typedef struct item{
