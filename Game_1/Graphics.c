@@ -785,7 +785,6 @@ void inventoryGraphics(Player user){
 
 	}
 	updateScreen();
-	getch();
 
 	for (i = 0; i < 20; i++){
 		for (j = 0; j < 40; j++)
@@ -821,7 +820,7 @@ void inventoryGraphics(Player user){
 			if (key_code == 's' && cursor[0] < 4 + ceil(user->INVENTORY->size / 2)){
 				screen[cursor[0]][cursor[1]] = ' ';
 				cursor[0] += 2;
-				cursor[2] +=2;
+				cursor[2] += 2;
 			}
 			if (key_code == 13){
 				switch (cursor[2]){
@@ -840,6 +839,12 @@ void inventoryGraphics(Player user){
 			updateScreen();
 		
 	}
+	for (i = 0; i < 20; i++){
+		for (j = 0; j < 80; j++)
+			screen[i][j] = tempScreen[i][j];
+
+	}
+	
 }
 
 void itemBox(ItemPtr it){
@@ -847,14 +852,14 @@ void itemBox(ItemPtr it){
 		int cursor[3];
 		int i, j, k;
 		int key_code = 0;
-
-
-
-		for (i = 9; i > 0; i--){
+		for (i = 0; i < 20; i++){
 			for (j = 40; j < 79; j++){
 				screen[i][j] = ' ';
-				screen[18 - i][j] = ' ';
 			}
+		}
+
+		for (i = 9; i > 0; i--){
+			
 			if (i == 1)
 			{
 				for (j = 40; j < 79; j++)
@@ -878,6 +883,7 @@ void itemBox(ItemPtr it){
 			Sleep(20);
 			updateScreen();
 		}
+		getch();
 		
 		if (it->POTION != NULL)
 		{
@@ -891,21 +897,44 @@ void itemBox(ItemPtr it){
 			{
 				screen[11][i + 41] = temp[i];
 			}
-			for (i = 0; i < 11; i++){
-				for (j = 0; j < 16; j++){
-					if (characters[5][i][j] != NULL && characters[5][i][j] != '\n');
-					screen[i + 1][j + 57] = characters[5][i][j];
+			for (i = 0; i < 10; i++){
+				for (j = 0; j < 13; j++){
+					if(characters[5][i][j] == NULL)
+						break;
+					else if (characters[5][i][j] != '\n'){
+						screen[i + 1][j + 57] = characters[5][i][j];
+					}
 				}
 			}
+			
+		}
+
+		sprintf(temp, "Use");
+		for (i = 0; i < strlen(temp); i++)
+		{
+			screen[13][i + 42] = temp[i];
+		}
+		sprintf(temp, "Toss");
+		for (i = 0; i < strlen(temp); i++)
+		{
+			screen[13][i + 52] = temp[i];
+		}
+		sprintf(temp, "Cancel");
+		for (i = 0; i < strlen(temp); i++)
+		{
+			screen[15][i + 42] = temp[i];
 		}
 		
+		for (i = 0; i < 18; i++){
+			screen[i][78] = 219;
+		}
 		
 
 		updateScreen();
-		getch();
+		
 
-		cursor[0] = 4;
-		cursor[1] = 4;
+		cursor[0] = 13;
+		cursor[1] = 41;
 		cursor[2] = 0;
 
 		screen[cursor[0]][cursor[1]] = 219;
@@ -913,40 +942,48 @@ void itemBox(ItemPtr it){
 		updateScreen();
 
 		while (key_code != 13 && key_code != 27){
-			if (kbhit()){
-				key_code = getch();
-				if (key_code == 'w' && cursor[2] > 0){
-					screen[cursor[0]][cursor[1]] = ' ';
-					cursor[0] -= 2;
-					cursor[2] --;
-				}
-				if (key_code == 's' && cursor[2] < 2){
-					screen[cursor[0]][cursor[1]] = ' ';
-					cursor[0] += 2;
-					cursor[2] ++;
-				}
-				if (key_code == 13){
-					switch (cursor[2]){
-					case 0:
-						
-						break;
-					case 1:
-						printf("You are very handsome\n");
-						break;
-					case 2:
-						break;
-					}
+			key_code = getch();
 
-				}
-				screen[cursor[0]][cursor[1]] = 219;
-				updateScreen();
+			if (key_code == 'w' && cursor[0] > 13){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[0] -= 2;
+				cursor[2] -= 2;
 			}
+			if (key_code == 'a' && cursor[1] >= 42){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[1] -= 10;
+				cursor[2] --;
+			}
+			if (key_code == 'd' && (cursor[1] < 42 )){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[1] += 10;
+				cursor[2] ++;
+			}
+			if (key_code == 's' && cursor[0] < 15 ){
+				screen[cursor[0]][cursor[1]] = ' ';
+				cursor[0] += 2;
+				cursor[2] += 2;
+			}
+			if (key_code == 13){
+				switch (cursor[2]){
+				case 0:
+					//itemBox(user->INVENTORY->head);
+					break;
+				case 1:
+					//printf("You are very handsome\n");
+					break;
+				case 2:
+					key_code = 13;
+					break;
+				}
 
-		}
-
+			}
+			screen[cursor[0]][cursor[1]] = 219;
 			updateScreen();
-			Sleep(10);
+
 		}
+
+	}
 
 
 
