@@ -194,7 +194,7 @@ int main(int argc, char* argv[]){
 	updateEnemyPosition(enemies, mainChar);
 
 	warriornextlevel(mainChar);
-
+	updatePlayerPosition(mainChar);
 	updateScreen();
 
 	while (1){
@@ -220,7 +220,8 @@ int main(int argc, char* argv[]){
 		}
 		if (key_code == 27)
 			menuGraphics(mainChar);
-
+		updatePlayerPosition(mainChar);
+		updateScreen();
 
 
 
@@ -477,15 +478,15 @@ void battleSequence(Enemy en, Player user){
 	}
 	else if (en->NAME == "Goblin"){
 		enemyIndex = 2;
-		maxOffset = 25;
+		maxOffset = 45;
 	}
 	else if (en->NAME == "Orc"){
 		enemyIndex = 3;
-		maxOffset = 20;
+		maxOffset = 40;
 	}
 	else if (en->NAME == "Troll"){
 		enemyIndex = 4;
-		maxOffset = 20;
+		maxOffset = 40;
 	}
 	else{
 		enemyIndex = 0;
@@ -524,7 +525,7 @@ void battleSequence(Enemy en, Player user){
 		updateScreen();
 		Sleep(20);
 	}
-	Sleep(1000);
+	Sleep(200);
 
 	for (i = 0; playerSprite[i] != NULL && i < 10; i++){
 		for (j = 0; playerSprite[i][j] != NULL && i < 78; j++){
@@ -536,7 +537,6 @@ void battleSequence(Enemy en, Player user){
 	}
 	updateScreen();
 
-	getch();
 
 	for (i = 0; i < strlen(temp); i++)
 		screen[1][i + 3] = ground;
@@ -1082,8 +1082,6 @@ void itemBox(Player user,ItemPtr it,int* exit){
 		free(tempchar);
 		return;
 	}
-
-
 
 
 PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int DEFRAISE, int MATKRAISE, int MDEFRAISE, int ACCRAISE, int LCKRAISE, char* DESCRIPTION){
