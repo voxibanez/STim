@@ -45,9 +45,11 @@ PotionPtr initPotion(char* NAME, int MAXHPRAISE, int HPRAISE, int ATKRAISE, int 
 
 ItemPtr initItem(PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON);
 
-void itemBox(ItemPtr it);
+void itemBox(Player user, ItemPtr it);
 
 void inventoryGraphics(Player user);
+
+void useItem(Player user, ItemPtr it);
 
 char screen[20][80] = { { 176 } };
 int playerPosition[2][2] = { 0 };
@@ -475,8 +477,8 @@ void battleSequence(Enemy en, Player user){
 	while (offsetX < maxOffset){
 		for (i = 0; characters[enemyIndex][i] != NULL && i < 20; i++){
 			for (j = 0; characters[enemyIndex][i][j] != NULL && i < 78; j++){
-
-				screen[i][j + offsetX] = characters[enemyIndex][i][j];
+				if (characters[enemyIndex][i][j] != NULL)
+					screen[i][j + offsetX] = characters[enemyIndex][i][j];
 
 			}
 
@@ -526,7 +528,7 @@ void battleSequence(Enemy en, Player user){
 }
 
 char** loadArt(char* filename){
-	int i, j, k;
+	int i, j, k, l;
 	char** temp;
 	char tempChar[80];
 	FILE* fp;
@@ -554,6 +556,7 @@ char** loadArt(char* filename){
 		temp[j][0] = NULL;
 		fscanf(fp, "%78[^\n]", temp[j]);
 		fscanf(fp, "%c");
+		
 		//fgets(temp[j], 78, fp);
 		j++;
 	}
@@ -733,9 +736,9 @@ void menuGraphics(Player user){
 }
 
 void inventoryGraphics(Player user){
-	int i, j, k, l,m;
+	int i, j, k, l, m;
 	char tempScreen[20][80];
-	char temp[40];
+	char* temp = malloc(sizeof(char)*64);
 	int key_code = 0;
 	int cursor[3];
 	ItemPtr tempItem = user->INVENTORY->head;
@@ -812,7 +815,7 @@ void inventoryGraphics(Player user){
 				cursor[1] -= 20;
 				cursor[2] --;
 			}
-			if (key_code == 'd' && (cursor[1] < 21 - (20*(user->INVENTORY->size%2)))){
+			if (key_code == 'd' && (cursor[1] < 21 - (20*(user->INVENTORY->size % 2)))){
 				screen[cursor[0]][cursor[1]] = ' ';
 				cursor[1] += 20;
 				cursor[2] ++;
@@ -825,7 +828,7 @@ void inventoryGraphics(Player user){
 			if (key_code == 13){
 				switch (cursor[2]){
 				case 0:
-					itemBox(user->INVENTORY->head);
+					itemBox(user,user->INVENTORY->head);
 					break;
 				case 1:
 					//printf("You are very handsome\n");
@@ -844,11 +847,12 @@ void inventoryGraphics(Player user){
 			screen[i][j] = tempScreen[i][j];
 
 	}
-	
+	free(temp);
+	free(tempItem);
 }
 
-void itemBox(ItemPtr it){
-		char temp[20];
+void itemBox(Player user,ItemPtr it){
+		char* tempchar = malloc(sizeof(char)*40);
 		int cursor[3];
 		int i, j, k;
 		int key_code = 0;
@@ -887,15 +891,15 @@ void itemBox(ItemPtr it){
 		
 		if (it->POTION != NULL)
 		{
-			sprintf(temp, "%.20s", it->POTION->NAME);
-			for (i = 0; i < strlen(temp); i++)
+			sprintf(tempchar, "%.20s", it->POTION->NAME);
+			for (i = 0; i < strlen(tempchar); i++)
 			{
-				screen[2][i + 41] = temp[i];
+				screen[2][i + 41] = tempchar[i];
 			}
-			sprintf(temp, "%s", it->POTION->DESCRIPTION);
-			for (i = 0; i < strlen(temp); i++)
+			sprintf(tempchar, "%s", it->POTION->DESCRIPTION);
+			for (i = 0; i < strlen(tempchar); i++)
 			{
-				screen[11][i + 41] = temp[i];
+				screen[11][i + 41] = tempchar[i];
 			}
 			for (i = 0; i < 10; i++){
 				for (j = 0; j < 13; j++){
@@ -909,20 +913,20 @@ void itemBox(ItemPtr it){
 			
 		}
 
-		sprintf(temp, "Use");
-		for (i = 0; i < strlen(temp); i++)
+		sprintf(tempchar, "Use");
+		for (i = 0; i < strlen(tempchar); i++)
 		{
-			screen[13][i + 42] = temp[i];
+			screen[13][i + 42] = tempchar[i];
 		}
-		sprintf(temp, "Toss");
-		for (i = 0; i < strlen(temp); i++)
+		sprintf(tempchar, "Toss");
+		for (i = 0; i < strlen(tempchar); i++)
 		{
-			screen[13][i + 52] = temp[i];
+			screen[13][i + 52] = tempchar[i];
 		}
-		sprintf(temp, "Cancel");
-		for (i = 0; i < strlen(temp); i++)
+		sprintf(tempchar, "Cancel");
+		for (i = 0; i < strlen(tempchar); i++)
 		{
-			screen[15][i + 42] = temp[i];
+			screen[15][i + 42] = tempchar[i];
 		}
 		
 		for (i = 0; i < 18; i++){
@@ -967,7 +971,7 @@ void itemBox(ItemPtr it){
 			if (key_code == 13){
 				switch (cursor[2]){
 				case 0:
-					//itemBox(user->INVENTORY->head);
+					useItem(user,it);
 					break;
 				case 1:
 					//printf("You are very handsome\n");
@@ -982,7 +986,7 @@ void itemBox(ItemPtr it){
 			updateScreen();
 
 		}
-
+		free(tempchar);
 	}
 
 
@@ -1017,3 +1021,18 @@ ItemPtr initItem(PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON){
 	return temp;
 }
 
+void useItem(Player User, ItemPtr it){
+	if (it->POTION != NULL){
+		User->ACC += it->POTION->ACCRAISE;
+		User->ATK += it->POTION->ATKRAISE;
+		User->DEF += it->POTION->DEFRAISE;
+		User->HP += it->POTION->HPRAISE;
+		User->LCK += it->POTION->LCKRAISE;
+		User->MATK += it->POTION->MATKRAISE;
+		User->MAXHP += it->POTION->MAXHPRAISE;
+		User->MDEF += it->POTION->MDEFRAISE;
+	}
+	if (it->WEAPON != NULL){
+		
+	}
+}

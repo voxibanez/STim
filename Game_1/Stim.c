@@ -123,72 +123,6 @@ int character_select(Player user)
 	}
 }
 
-void warrior(void)
-{
-	MAX_HP = 11;
-	ATK = 11;
-	DEF = 13;
-	MATK = 6;
-	MDEF = 12;
-	ACC = 70;
-	LCK = 8;
-	issword = 0, isrune = 0, ismace = 0, isdagger = 0, isarmor = 0;
-	your_main_weapon();
-	your_off_weapon();
-	your_armor();
-	DMG = calc_dmg();
-	iswarrior = 1;
-}
-void mage(void)
-{
-	MAX_HP = 10;
-	ATK = 7;
-	DEF = 10;
-	MATK = 15;
-	MDEF = 14;
-	ACC = 80;
-	LCK = 10;
-	issword = 0, isrune = 0, ismace = 0, isdagger = 0, isarmor = 0;
-	your_main_weapon();
-	your_off_weapon();
-	your_armor();
-	DMG = calc_dmg();
-	mage_roll = 1;
-	ismage = 1;
-}
-void cleric(void)
-{
-	MAX_HP = 15;
-	ATK = 14;
-	DEF = 9;
-	MATK = 10;
-	MDEF = 12;
-	ACC = 60;
-	LCK = 10;
-	issword = 0, isrune = 0, ismace = 0, isdagger = 0, isarmor = 0;
-	your_main_weapon();
-	your_off_weapon();
-	your_armor();
-	DMG = calc_dmg();
-	iscleric = 1;
-}
-void rogue(void)
-{
-	MAX_HP = 8;
-	ATK = 10;
-	DEF = 10;
-	MATK = 9;
-	MDEF = 9;
-	ACC = 90;
-	LCK = 15;
-	issword = 0, isrune = 0, ismace = 0, isdagger = 0, isarmor = 0;
-	your_main_weapon();
-	your_off_weapon();
-	your_armor();
-	DMG = calc_dmg();
-	isrogue = 1;
-}
-
 
 
 Enemy lv1_pick_monster(void)
@@ -307,7 +241,7 @@ void your_attack(Enemy en, Player user)
 	int attack, i, up = 3, low = 1;
 	printf("HP: %d/%d\n(1) Basic Attack\n", user->HP, user->MAXHP);
 	//damage_range();
-	printf("(2)Use Potion (x%d)\n", countPotions(user));
+	printf("(2)Inventory (x%d)\n", countPotions(user));
 	i = scanf("%d", &attack);
 	attack = dumb_user(attack, up, low, i);
 	switch (attack)
@@ -315,27 +249,10 @@ void your_attack(Enemy en, Player user)
 		// attacks are determined by weapons multiplier: sword with str*.2
 		// DMG=(weapon*attack)-defense ifDMG<1, DMG = 1
 	case 1:
-		/*printf("You consider your options\n");
-		if (iscleric == 1)
-
-		else if (iswarrior == 1)
-
-		else if (ismage == 1)
-
-		else if (isrogue == 1)
-		*/
-
 		combat(en, user);
 		break;
 	case 2:
-		if (potions == 0)
-		{
-			system("cls");
-			printf("You have no potions!\n");
-			your_attack(en, user);
-		}
-		else
-			use_potion();
+		inventoryGraphics(user);
 		break;
 		//case 3: 
 		//break;
@@ -439,56 +356,6 @@ void enemy_combat(Enemy en, Player user)
 	updateScreen();
 }
 
-void skeleton(void)
-{
-	printf("A Lv. %d spooky skeleton appears!\n\n", enemy_level);
-	eHP = 10 + (.2*enemy_level);
-	eATK = 10 + (.2*enemy_level);
-	eDEF = 5 + (.2*enemy_level);
-	eMATK = 10 + (.2*enemy_level);
-	eMDEF = 5 + (.2*enemy_level);
-	eACC = 80;
-	eLCK = 10 + (.2*enemy_level);
-	eWMOD = 1.25;
-	temp_eHP = eHP;
-	isskeleton = 1;
-	drop_rarity = 1;
-}
-void goblin(void)
-{
-	printf("A Lv. %d mischievous goblin appears!\n\n", enemy_level);
-	eHP = 8 + (.2*enemy_level);
-	eATK = 6 + (.2*enemy_level);
-	eDEF = 1 + (.2*enemy_level);
-	eMATK = 8 + (.2*enemy_level);
-	eMDEF = 1 + (.2*enemy_level);
-	eACC = 90;
-	eLCK = 5 + (.2*enemy_level);
-	temp_eHP = eHP;
-	eWMOD = 1.15;
-	isgoblin = 1;
-	drop_rarity = .5;
-}
-void orc(void)
-{
-	printf("A Lv. %d menacing orc appears!\n\n", enemy_level);
-
-}
-void troll(void)
-{
-	printf("A Lv. %d terrifying troll charges you!\n\n", enemy_level);
-	eHP = 18 + (.2*enemy_level);
-	eATK = 14 + (.2*enemy_level);
-	eDEF = 2 + (.2*enemy_level);
-	eMATK = 10 + (.2*enemy_level);
-	eMDEF = 6 + (.2*enemy_level);
-	eACC = 65;
-	eLCK = 10 + (.2*enemy_level);
-	temp_eHP = eHP;
-	eWMOD = 1.3;
-	istroll = 1;
-	drop_rarity = 3;
-}
 void enemy_attacks(Enemy en, Player user)
 {
 	int r = rand() % 100, half_hp = en->HP / 2, crit = 110 - en->LCK*1.2;
@@ -527,7 +394,6 @@ void enemy_attacks(Enemy en, Player user)
 void menu(void)
 {
 	int select, up = 6, low = 1, i;
-	who_are_you();
 	printf("What would you like to do?\n");
 	printf("(2)Check your inventory\n(3)Check your stats\n(4)Meditate\n(5)Save\n(6)Quit\n");
 	i = scanf("%d", &select);
@@ -788,17 +654,6 @@ char dumb_user_yn(char answer, int i)
 		}
 	}
 	return answer;
-}
-void who_are_you()
-{
-	if (iswarrior == 1)
-		warrior();
-	if (ismage == 1)
-		mage();
-	if (iscleric == 1)
-		cleric();
-	if (isrogue == 1)
-		rogue();
 }
 double calc_dmg()
 {
