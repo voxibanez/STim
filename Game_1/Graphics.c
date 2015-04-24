@@ -100,10 +100,10 @@ int main(int argc, char* argv[]){
 	weapons[3]->picture = loadArt("Wood_club.txt");
 	weapons[4] = initWeapon("Chipped Dagger", -1.0, 0.9, 1.1, 70, 1,"Sucks to suck",NULL);
 	weapons[4]->picture = loadArt("Chipped_dagger.txt");
-	weapons[4] = initWeapon("Lightning Rune", -1.0, 0.9, 1.1, 70, 1, "ZZZZZP", NULL);
-	weapons[4]->picture = loadArt("Lightning_rune.txt");
-	weapons[4] = initWeapon("Frost Rune", -1.0, 0.9, 1.1, 70, 1, "Chilly...", NULL);
-	weapons[4]->picture = loadArt("Frost_rune.txt");
+	//weapons[5] = initWeapon("Light Rune", -1.0, 0.9, 1.1, 70, 1, "ZZZZZP", NULL);
+	//weapons[5]->picture = loadArt("Light_rune.txt");
+	weapons[6] = initWeapon("Frost Rune", -1.0, 0.9, 1.1, 70, 1, "Chilly...", NULL);
+	//weapons[6]->picture = loadArt("Frost_rune.txt");
 
 	potions = malloc(sizeof(PotionPtr*) * 1);
 	potions[0] = initPotion("Potion",0,5,0,0,0,0,0,0,"A Simple Healing Potion","Potion.txt");
@@ -190,6 +190,9 @@ int main(int argc, char* argv[]){
 	addItem(mainChar, potions[0],3,NULL);
 	addItem(mainChar, potions[0], 3,NULL);
 	addItem(mainChar, NULL, 1, weapons[2]);
+	addItem(mainChar, NULL, 1, weapons[3]);
+	addItem(mainChar, NULL, 1, weapons[4]);
+	addItem(mainChar, NULL, 1, weapons[6]);
 	
 
 
@@ -597,7 +600,6 @@ char** loadArt(char* filename){
 WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double attackModMax, double AccMod, int isPhysical, char* DESCRIPTION,char* fileName){
 	WeaponPtr temp;
 	temp = malloc(sizeof(Weapon));
-	//temp->name = malloc(sizeof(char) * 20);
 
 	temp->NAME = name;
 	temp->weaponMod = weaponMod;
@@ -606,8 +608,6 @@ WeaponPtr initWeapon(char* name, double weaponMod, double attackModMin, double a
 	temp->AccMod = AccMod;
 	temp->isPhysical = isPhysical;
 	temp->DESCRIPTION = DESCRIPTION;
-	if (fileName != NULL)
-		temp->picture = loadArt(fileName);
 	return temp;
 }
 
@@ -873,15 +873,19 @@ void inventoryGraphics(Player user){
 				cursor[1] -= 20;
 				cursor[2] --;
 			}
-			if (key_code == 'd' && (cursor[1] < 21 - (20 * (user->INVENTORY->size % 2)))){
+			if (key_code == 'd' && (cursor[0] <  4 + 2 * ceil(user->INVENTORY->size / 2) && cursor[1] < 22 - (20 * (user->INVENTORY->size % 2)))){
 				screen[cursor[0]][cursor[1]] = ' ';
 				cursor[1] += 20;
 				cursor[2] ++;
 			}
-			if (key_code == 's' && cursor[0] < 4 + ceil(user->INVENTORY->size / 2)){
-				screen[cursor[0]][cursor[1]] = ' ';
-				cursor[0] += 2;
-				cursor[2] += 2;
+			if (key_code == 's' && !(cursor[0] == 3 + 2 * ceil(user->INVENTORY->size / 2) && cursor[1] >= 22 - (20 * (user->INVENTORY->size % 2)))){
+				if (!(cursor[0] == 5 + 2 * ceil(user->INVENTORY->size / 2)))
+				{
+					screen[cursor[0]][cursor[1]] = ' ';
+					cursor[0] += 2;
+					cursor[2] += 2;
+				}
+				
 			}
 
 			if (key_code == 13){

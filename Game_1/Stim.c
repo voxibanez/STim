@@ -963,6 +963,7 @@ void addItem(Player user, PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON){
 			temp = temp->next;
 		it->prev = temp;
 		temp->next = it;
+
 		user->INVENTORY->size++;
 	}
 }

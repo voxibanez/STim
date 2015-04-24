@@ -89,7 +89,7 @@
     <Text Include="Frost_rune.txt" />
     <Text Include="Game_info.txt" />
     <Text Include="Goblin.txt" />
-    <Text Include="Lightning_rune.txt" />
+    <Text Include="Light_rune.txt" />
     <Text Include="Orc.txt" />
     <Text Include="Player.txt" />
     <Text Include="Potion.txt" />

@@ -61,9 +61,6 @@
     <Text Include="Frost_rune.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="Lightning_rune.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="Wooden_sword.txt">
       <Filter>Resource Files</Filter>
     </Text>
@@ -71,6 +68,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="Chipped_dagger.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Light_rune.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
