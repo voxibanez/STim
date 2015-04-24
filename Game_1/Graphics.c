@@ -89,7 +89,7 @@ int main(int argc, char* argv[]){
 	
 
 
-	weapons = malloc(sizeof(WeaponPtr*) * 5);
+	weapons = malloc(sizeof(WeaponPtr*) * 7);
 	weapons[0] = initWeapon("Empty", 0.0, 0.0, 1.0, 100, 1,"Nothing to see here",NULL);
 	weapons[0]->picture = loadArt("Unknown.txt");
 	weapons[1] = initWeapon("Wooden Sword", 0.0, 0.7, 1.3, 90, 1,"The strongest of all wooden swords",NULL);
@@ -100,6 +100,10 @@ int main(int argc, char* argv[]){
 	weapons[3]->picture = loadArt("Wood_club.txt");
 	weapons[4] = initWeapon("Chipped Dagger", -1.0, 0.9, 1.1, 70, 1,"Sucks to suck",NULL);
 	weapons[4]->picture = loadArt("Chipped_dagger.txt");
+	weapons[4] = initWeapon("Lightning Rune", -1.0, 0.9, 1.1, 70, 1, "ZZZZZP", NULL);
+	weapons[4]->picture = loadArt("Lightning_rune.txt");
+	weapons[4] = initWeapon("Frost Rune", -1.0, 0.9, 1.1, 70, 1, "Chilly...", NULL);
+	weapons[4]->picture = loadArt("Frost_rune.txt");
 
 	potions = malloc(sizeof(PotionPtr*) * 1);
 	potions[0] = initPotion("Potion",0,5,0,0,0,0,0,0,"A Simple Healing Potion","Potion.txt");
@@ -951,6 +955,67 @@ void itemBox(Player user,ItemPtr it,int* exit){
 		
 		if (it->POTION != NULL)
 		{
+			i = 0;
+			if (it->POTION->ACCRAISE != 0){
+				sprintf(tempchar, "Accuracy: +%d   ", it->POTION->ACCRAISE);
+				for (j = 0; j < strlen(tempchar); j++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+					
+			}
+			if (it->POTION->ATKRAISE != 0){
+				sprintf(tempchar, "Attack: +%d   ", it->POTION->ATKRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+			if (it->POTION->DEFRAISE != 0){
+				sprintf(tempchar, "Defense: +%d   ", it->POTION->DEFRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+			if (it->POTION->HPRAISE != 0){
+				sprintf(tempchar, "HP: +%d   ", it->POTION->HPRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+			if (it->POTION->LCKRAISE != 0){
+				sprintf(tempchar, "Luck: +%d   ", it->POTION->LCKRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+			if (it->POTION->MATKRAISE != 0){
+				sprintf(tempchar, "Magic Attack: +%d   ", it->POTION->MATKRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+			if (it->POTION->MDEFRAISE != 0){
+				sprintf(tempchar, "Magic Defense: +%d   ", it->POTION->MDEFRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+			if (it->POTION->MAXHPRAISE != 0){
+				sprintf(tempchar, "Max HP: +%d   ", it->POTION->MAXHPRAISE);
+				for (i = 0; i < strlen(tempchar); i++){
+					screen[5][j + i + 41] = tempchar[i];
+					i++;
+				}
+			}
+
+
+
 			sprintf(tempchar, "%.20s", it->POTION->NAME);
 			for (i = 0; i < strlen(tempchar); i++)
 			{
