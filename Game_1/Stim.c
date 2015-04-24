@@ -47,7 +47,7 @@ void goblin(void);
 void orc(void);
 void troll(void);
 void addItem(Player user, PotionPtr POTION, int QUANTITY, WeaponPtr);
-void removeItem(Player user, int quantity, char* name);
+void removeItem(Player user, int quantity, ItemPtr it);
 int countPotions(Player user);
 
 
@@ -144,7 +144,7 @@ Enemy lv1_pick_monster(void)
 		temp->MDEF + (.2*enemy_level);
 		temp->ACC = 90;
 		temp->LCK = 5 + (.2*enemy_level);
-		temp->HP = MAX_HP;
+		temp->HP = 8 + (.2*enemy_level);
 		temp->WMOD = 1.15;
 		temp->NAME = "Goblin";
 		temp->drop_rareity = .5;
@@ -171,7 +171,7 @@ Enemy lv1_pick_monster(void)
 		temp->MDEF = 4 + (.2*enemy_level);
 		temp->ACC = 75;
 		temp->LCK = 10 + (.2*enemy_level);
-		temp->HP = temp->MAXHP;
+		temp->HP = 12 + (.2*enemy_level);
 		temp->WMOD = 1.25;
 		temp->NAME = "Orc";
 		temp->drop_rareity = 1.5;
@@ -184,7 +184,7 @@ Enemy lv1_pick_monster(void)
 		temp->MDEF = 6 + (.2*enemy_level);
 		temp->ACC = 65;
 		temp->LCK = 10 + (.2*enemy_level);
-		temp->HP = temp->MAXHP;
+		temp->HP = 18 + (.2*enemy_level);
 		temp->WMOD = 1.3;
 		temp->NAME = "Troll";
 		temp->drop_rareity = 3;
@@ -241,7 +241,7 @@ void your_attack(Enemy en, Player user)
 	int attack, i, up = 3, low = 1;
 	printf("HP: %d/%d\n(1) Basic Attack\n", user->HP, user->MAXHP);
 	//damage_range();
-	printf("(2)Inventory (x%d)\n", countPotions(user));
+	printf("(2)Inventory\n");
 	i = scanf("%d", &attack);
 	attack = dumb_user(attack, up, low, i);
 	switch (attack)
@@ -310,6 +310,7 @@ void combat(Enemy en, Player user)
 		}
 	}
 	Sleep(500);
+	printf("Press Enter To Continue...\n");
 	getch();
 	updateScreen();
 }
@@ -352,6 +353,7 @@ void enemy_combat(Enemy en, Player user)
 		printf("Enemy delivered %d damage. You are at %d HP\n\n", loss, user->HP);
 	}
 	Sleep(500);
+	printf("Press Enter To Continue...\n");
 	getch();
 	updateScreen();
 }
@@ -965,26 +967,21 @@ void addItem(Player user, PotionPtr POTION, int QUANTITY, WeaponPtr WEAPON){
 	}
 }
 
-void removeItem(Player user, int quantity, char* name){
-	ItemPtr temp = user->INVENTORY->head;
+void removeItem(Player user, int quantity, ItemPtr it){
 
-	while (temp->next != NULL){
-		if (temp->POTION != NULL){
-			if (name == temp->POTION->NAME){
-				temp->next = temp->prev;
-				return;
-			}
-		}
-		if (temp->WEAPON != NULL){
-			if (name == temp->WEAPON->NAME){
-				temp->next = temp->prev;
-				return;
-			}
-		}
-		temp = temp->next;
+	//it->next = it->prev;
+	if (it == user->INVENTORY->head)
+		user->INVENTORY->head = it->next;
+	else if (it->next == NULL)
+		it->prev = NULL;
+	else{
+		it->prev->next = it->next;
+		it->next->prev = it->prev;
 	}
 
-	free(temp);
+	user->INVENTORY->size--;
+
+	free(it);
 }
 
 int countPotions(Player user){

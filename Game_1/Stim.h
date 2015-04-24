@@ -80,6 +80,8 @@ typedef struct player{
 
 	InventoryPtr INVENTORY;
 
+	int isInBattle;
+
 }PlayerSize, *Player;
 
 typedef struct animation{
