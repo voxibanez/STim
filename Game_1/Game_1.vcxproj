@@ -84,14 +84,20 @@
     <ResourceCompile Include="Game_1.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Chipped_dagger.txt" />
+    <Text Include="Fire_rune.txt" />
+    <Text Include="Frost_rune.txt" />
     <Text Include="Game_info.txt" />
     <Text Include="Goblin.txt" />
+    <Text Include="Lightning_rune.txt" />
     <Text Include="Orc.txt" />
     <Text Include="Player.txt" />
     <Text Include="Potion.txt" />
     <Text Include="Skeleton.txt" />
     <Text Include="Troll.txt" />
     <Text Include="Unknown.txt" />
+    <Text Include="Wooden_sword.txt" />
+    <Text Include="Wood_club.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics.c" />
