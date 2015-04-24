@@ -1053,14 +1053,19 @@ void itemBox(Player user,ItemPtr it,int* exit){
 					useItem(user,it);
 					break;
 				case 1:
-					do{
-						printf("How many would you like to throw away?: ");
-						scanf("%d", &tempInt);
-						if (tempInt <= 0 || tempInt > it->QUANTITY)
-							printf("\nInvalid choice, please select a number between 0 and %d\n", it->QUANTITY);
-					} while (tempInt<=0 || tempInt > it->QUANTITY);
-					if (it->QUANTITY != tempInt)
-						it->QUANTITY-=tempInt;
+					if (it->QUANTITY > 1){
+						do{
+							printf("How many would you like to throw away?: ");
+							scanf("%d", &tempInt);
+							if (tempInt <= 0 || tempInt > it->QUANTITY)
+								printf("\nInvalid choice, please select a number between 0 and %d\n", it->QUANTITY);
+						} while (tempInt <= 0 || tempInt > it->QUANTITY);
+
+						if (it->QUANTITY != tempInt)
+							it->QUANTITY -= tempInt;
+						else
+							removeItem(user, 1, it);
+					}
 					else
 						removeItem(user, 1, it);
 					break;
